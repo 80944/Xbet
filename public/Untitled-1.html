@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangbet</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+        /* Your existing styles here */
+
+        /* --- New Sidebar Styles --- */
+        .sidebar {
+            height: 100%; /* Full height */
+            width: 0; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top of other content */
+            top: 0;
+            left: 0;
+            background-color: #111; /* Dark background */
+            overflow-x: hidden; /* Disable horizontal scroll */
+            transition: 0.5s; /* 0.5 second transition effect to slide in/out */
+            padding-top: 60px; /* Space from top */
+            box-shadow: 2px 0 5px rgba(0,0,0,0.5); /* Optional subtle shadow */
+        }
+
+        .sidebar ul {
+            list-style: none; /* Remove bullet points */
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            color: #f1f1f1;
+            background-color: #575757;
+        }
+
+        .sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            text-decoration: none;
+            color: #818181;
+        }
+
+        .sidebar .closebtn:hover {
+            color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        /* --- Optional: Overlay content when sidebar is open --- */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4); /* Black with opacity */
+            z-index: 999; /* Below sidebar, above page content */
+            display: none; /* Hidden by default */
+        }
+
+        /* Adjust content when sidebar is open (optional, but good for larger screens) */
+        #main-content.shifted {
+            margin-left: 250px; /* Same width as sidebar */
+            transition: margin-left .5s;
+        }
+
+        /* For smaller screens, you might want a narrower sidebar */
+        @media screen and (max-height: 450px) {
+            .sidebar {padding-top: 15px;}
+            .sidebar ul li a {font-size: 18px;}
+        }
+
+        /* Your existing .page-section and .nav-item styles as provided previously */
+        .page-section {
+            display: none;
+            padding: 20px;
+            min-height: 400px;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #eee;
+        }
+
+        .page-section.active-page {
+            display: block;
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            background-color: #fff;
+        }
+
+        .nav-item {
+            cursor: pointer;
+            padding: 10px 15px;
+            margin: 5px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .nav-item.active {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .nav-item.active i {
+            color: white;
+        }
+
+        .nav-item i {
+            font-size: 1.5em;
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <ul>
+            <li><a href="#">Live Betting</a></li>
+            <li><a href="#">Pre-Match Odds</a></li>
+            <li><a href="#">Virtual Sports</a></li>
+            <li><a href="#">Promotions</a></li>
+            <li><a href="#">How To Play</a></li>
+            <li><a href="#">Responsible Gaming</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+        </ul>
+    </div>
+
+    <div class="overlay" id="sidebar-overlay"></div>
+
+    <header>
+        <h6>Bangbet</h6>
+    </header>
+
+    <div id="main-content">
+        <div class="content">
+            <div class="nav-item" data-page="menu-page" id="menu-nav-item">
+                <div class="grid-container">
+                    <div class="grid">
+                        <i class="bi bi-justify"></i>
+                    </div>
+                    <p class="grid-text">Menu</p>
+                </div>
+            </div>
+            <div class="nav-item" data-page="home-page" id="home-nav-item">
+                <div class="home-container">
+                    <div class="home">
+                        <i class="bi bi-house"></i>
+                        <p class="home-text">Home</p>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-item" data-page="aviator-page" id="aviator-nav-item">
+                <div class="aviator-container">
+                    <div class="aviator"></div>
+                    <p class="aviator-text">Aviator</p>
+                </div>
+            </div>
+
+            <div class="nav-item" data-page="casino-page" id ="casino-nav-item">
+                <div class="casino-container">
+                    <div class="casino"></div>
+                    <p class="casino-text">Casino</p>
+                </div>
+            </div>
+
+            <div class="nav-item" data-page="baseball-page" id="baseball-nav-item">
+                <div class="baseball-container">
+                    <div class="baseball"></div>
+                    <p class="baseball-text">Baseball</p>
+                </div>
+            </div>
+
+            <div class="nav-item" data-page="soccer-page" id="soccer-nav-item">
+                <div class="soccer-container">
+                    <div class="soccer"></div>
+                    <p class="soccer-text">Soccer</p>
+                </div>
+            </div>
+
+            <div class="nav-item" data-page="rugby-page" id="rugby-nav-item">
+                <div class="rugby-container">
+                    <div class="rugby"></div>
+                    <p class="rugby-text">Rugby</p>
+                </div>
+            </div>
+
+            <div class="nav-item" data-page="jackpot-page" id="jackpot-nav-item">
+                <div class="jackpot-container">
+                    <div class="jackpot"></div>
+                    <p class="jackpot-text">Jackpot</p>
+                </div>
+            </div>
+
+            <div class="nav-item" data-page="tennis-page" id="tennis-nav-item">
+                <div class="tennis-container">
+                    <div class="tennis"></div>
+                    <p class="tennis-text">Tennis</p>
+                </div>
+            </div>
+
+            <div class="nav-item" data-page="search-page" id="search-nav-item">
+                <div class="search-container">
+                    <div class="search">
+                        <i class="bi bi-search"></i>
+                        <p class="search-text">Search</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-item" data-page="person-page" id="person-nav-item">
+                <div class="person-container">
+                    <div class="person">
+                        <i class="bi bi-person"></i>
+                        <p class="person-text">0.00/-</p>
+                    </div>
+                </div>
+            </div>
+        </div> <div id="home-page" class="page-section">
+            <h2>Welcome to Bangbet Home!</h2>
+            <p>This is the main dashboard where you'll find featured matches, live scores, and top events.</p>
+            <img src="https://via.placeholder.com/600x200?text=Featured+Match+Banner" alt="Featured Match" style="max-width: 100%; height: auto; margin-top: 20px;">
+            <h3>Upcoming Games</h3>
+            <ul>
+                <li>Football: Team A vs Team B - Kick-off: 8:00 PM</li>
+                <li>Basketball: Lakers vs Celtics - Tip-off: 9:30 PM</li>
+                <li>Tennis: Player X vs Player Y - Start: 3:00 PM</li>
+            </ul>
+        </div>
+
+        <div id="menu-page" class="page-section">
+            <h2>Menu Page (Not the Sidebar)</h2>
+            <p>This is the content for the `menu-page` if you click the menu item directly. The *sidebar* provides a separate navigation experience.</p>
+            <p>Click the "Menu" icon again to open the actual sidebar!</p>
+        </div>
+
+        <div id="aviator-page" class="page-section">
+            <h2>Play Aviator!</h2>
+            <p>The thrilling crash game where you bet before the plane flies away.</p>
+            <p>Place your bets and cash out before it's too late!</p>
+            <div class="aviator-game-placeholder" style="background-color: #333; color: white; padding: 50px; text-align: center; margin-top: 20px;">
+                <h3>[Aviator Game Interface would go here]</h3>
+                <p>Imagine the plane flying!</p>
+            </div>
+            <button style="margin-top: 20px; padding: 10px 20px; background-color: #ffc107; border: none; cursor: pointer;">Play Now</button>
+        </div>
+
+        <div id="casino-page" class="page-section">
+            <h2>Casino Games</h2>
+            <p>Dive into our exciting world of casino games!</p>
+            <div class="game-cards" style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
+                <div class="game-card" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 180px;">
+                    <img src="https://via.placeholder.com/150x100?text=Slot+Game" alt="Slot Game" style="max-width: 100%;">
+                    <h4>Slot Machine</h4>
+                    <p>Spin and win big!</p>
+                </div>
+                <div class="game-card" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 180px;">
+                    <img src="https://via.placeholder.com/150x100?text=Roulette" alt="Roulette" style="max-width: 100%;">
+                    <h4>Roulette</h4>
+                    <p>Place your bets!</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="baseball-page" class="page-section">
+            <h2>Baseball Betting</h2>
+            <p>All the latest odds and games for Baseball!</p>
+            <ul>
+                <li>MLB: Yankees vs Red Sox</li>
+                <li>KBO League: Doosan Bears vs LG Twins</li>
+            </ul>
+        </div>
+
+        <div id="soccer-page" class="page-section">
+            <h2>Soccer Betting</h2>
+            <p>The world's most popular sport is here!</p>
+            <h3>Live Matches</h3>
+            <p>No live matches currently. Check back soon!</p>
+            <h3>Upcoming Matches</h3>
+            <ul>
+                <li>Premier League</li>
+                <li>La Liga</li>
+                <li>Champions League</li>
+            </ul>
+        </div>
+
+        <div id="rugby-page" class="page-section">
+            <h2>Rugby Betting</h2>
+            <p>Tackle into the action with our rugby odds!</p>
+            <p>Featured Leagues: Super Rugby, Six Nations.</p>
+        </div>
+
+        <div id="jackpot-page" class="page-section">
+            <h2>Bangbet Jackpot!</h2>
+            <p>Predict the correct scores and win massive jackpots!</p>
+            <p>Next Jackpot Amount: Ksh 10,000,000</p>
+            <button style="padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer;">Play Jackpot</button>
+        </div>
+
+        <div id="tennis-page" class="page-section">
+            <h2>Tennis Betting</h2>
+            <p>Serve up some wins with our tennis betting options!</p>
+            <p>ATP and WTA tours available.</p>
+        </div>
+
+        <div id="search-page" class="page-section">
+            <h2>Search Bangbet</h2>
+            <p>Looking for something specific? Use our search bar.</p>
+            <input type="text" placeholder="Search for teams, matches, leagues..." style="width: 80%; padding: 8px; margin-top: 10px;">
+            <button style="padding: 8px 15px; background-color: #6c757d; color: white; border: none; cursor: pointer;">Search</button>
+        </div>
+
+        <div id="person-page" class="page-section">
+            <h2>My Account</h2>
+            <p>Manage your funds, bets, and profile.</p>
+            <ul>
+                <li>Current Balance: <span style="font-weight: bold;">0.00/-</span></li>
+                <li><a href="#">Deposit</a></li>
+                <li><a href="#">Withdraw</a></li>
+                <li><a href="#">Bet History</a></li>
+                <li><a href="#">Account Settings</a></li>
+            </ul>
+        </div>
+
+        <div class="container">
+            <div class="left"></div>
+            <div class="center">
+                <div class="ad container">
+                    <div class="ad first"></div>
+                    <div class="ad second"></div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="video container">
+                    <video width="300px" height="250px" autoplay loop muted controls>
+                        <source src="ad video.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div> <footer>
+        <p>© 2023 Bangbet. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            const pageSections = document.querySelectorAll('.page-section');
+            const sidebar = document.getElementById("mySidebar");
+            const mainContent = document.getElementById("main-content");
+            const sidebarOverlay = document.getElementById("sidebar-overlay");
+
+            // --- Sidebar Functions ---
+            function openNav() {
+                sidebar.style.width = "250px"; // Set the width of the sidebar
+                if (mainContent) {
+                    mainContent.style.marginLeft = "250px"; // Push main content to the right
+                }
+                if (sidebarOverlay) {
+                    sidebarOverlay.style.display = "block"; // Show the overlay
+                }
+                // Optional: Adjust header margin too if it's not within main-content
+                document.querySelector('header').style.marginLeft = "250px";
+                document.querySelector('header').style.transition = "margin-left .5s";
+            }
+
+            window.closeNav = function() { // Make it global for onclick in HTML
+                sidebar.style.width = "0";
+                if (mainContent) {
+                    mainContent.style.marginLeft = "0";
+                }
+                if (sidebarOverlay) {
+                    sidebarOverlay.style.display = "none";
+                }
+                // Reset header margin
+                document.querySelector('header').style.marginLeft = "0";
+                document.querySelector('header').style.transition = "margin-left .5s";
+            }
+
+            // Close sidebar when clicking outside (on the overlay)
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', closeNav);
+            }
+
+            // --- Page Navigation Functions (Existing) ---
+            function showPage(pageId) {
+                pageSections.forEach(section => {
+                    section.classList.remove('active-page');
+                });
+
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.classList.add('active-page');
+                }
+
+                const activeNavItem = document.querySelector(`.nav-item[data-page="${pageId}"]`);
+                if (activeNavItem) {
+                    activeNavItem.classList.add('active');
+                }
+                // Always close sidebar when a main nav item is clicked
+                closeNav();
+            }
+
+            // Add click event listeners to each navigation item
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const pageId = this.dataset.page;
+                    if (pageId === 'menu-page') {
+                        // If "Menu" is clicked, open the sidebar instead of showing a page
+                        openNav();
+                    } else if (pageId) {
+                        showPage(pageId); // For all other nav items, show their page
+                    }
+                });
+            });
+
+            // Set the initial page to 'home-page' when the application loads
+            showPage('home-page');
+        });
+    </script>
+</body>
+</html>

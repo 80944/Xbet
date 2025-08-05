@@ -1,0 +1,1434 @@
+
+/* General Body and Font Styles */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif; /* A modern, clean font */
+    background-color: #040124; /* Light background for general content */
+    color: #333;
+    line-height: 1.6;
+    display: flex; /* Use flexbox for overall layout */
+    flex-direction: column; /* Stack header, content, main, and footer vertically */
+    min-height: 100vh; /* Ensure body takes at least full viewport height */
+}
+
+/* Header Styling */
+header {
+    background-color: #686669; /* Your specified green */
+    color: rgb(20, 20, 20);
+    padding: 15px;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bolder;
+    position: sticky; /* Keeps header visible when scrolling */
+    top: 0;
+    z-index: 1000;
+    border-radius: 0 0 10px 10px; /* Rounded corners only at the bottom */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+header h6 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+/* Main Content Grid for Navigation Items */
+.content {
+    display: grid;
+    /* On mobile, auto-fit columns with a minimum width of 70px. */
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 8px; /* Space between grid items */
+    padding: 8px;
+    max-width: 1200px; /* Max width for desktop views */
+    margin: 10px auto; /* Center the content and add space around it */
+    position: relative; /* Keep it in document flow, not fixed */
+    width: calc(100% - 16px); /* Adjust width to account for padding */
+}
+
+/* Styling for Individual Navigation Items */
+.nav-item {
+    background-color: rgb(1, 20, 22); /* Your specified blue-green */
+    color: rgb(250, 240, 240); /* Text color for better contrast on dark background */
+    border-radius: 8px;
+    padding: 10px 4px; /* Adjusted padding */
+    display: flex;
+    flex-direction: row; /* Arrange icon, text, and ads in a row */
+    align-items: center; /* Vertically align items in the center */
+    justify-content: center; /* Center items horizontally */
+    text-align: center; /* For text alignment if any */
+    box-shadow: 0 2px 4px rgba(36, 34, 34, 0.2); /* Slightly darker shadow */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    min-height: 75px; /* Consistent height for all nav items */
+    gap: 5px; /* Space between icon, text, and ads */
+    flex-wrap: wrap; /* Allow items to wrap if space is too small */
+}
+
+.nav-item:active {
+    transform: scale(0.98); /* Slightly shrink on click */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* Active navigation item styling */
+.nav-item.active-nav-item {
+    background-color: #1c1d1d; /* A slightly different shade to indicate active */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* More prominent shadow */
+    transform: translateY(-2px); /* Slight lift */
+}
+
+.nav-item p {
+    margin: 0; /* Remove default margin from paragraph */
+    flex-shrink: 0; /* Prevent text from shrinking excessively */
+    font-size: 0.85em; /* Adjusted text size */
+    color: rgb(248, 236, 236); /* Ensure text is white */
+    line-height: 1.2;
+}
+
+.nav-item i {
+    flex-shrink: 0; /* Prevent icon from shrinking excessively */
+    font-size: 2em; /* Adjusted icon size */
+    color: #e0dede; /* Light color for icons */
+    margin-bottom: 0; /* No bottom margin as flex-direction is row */
+}
+
+/* New CSS for the mini ad carousel */
+.ad-carousel-mini {
+    width: 180px; /* Desired width */
+    height: 100px; /* Desired height */
+    overflow: hidden; /* Crucial for hiding non-active ads */
+    position: relative; /* For absolute positioning of slides */
+     /* Optional: Slightly rounded corners for ads */
+    flex-shrink: 0; /* Prevent ads from shrinking */
+    margin-left: 5px; /* Space between "Home" text and ads */
+
+}
+
+.ad-mini-slide {
+    width: 100%;
+    height: 100%;
+    position: absolute; /* Stack images on top of each other */
+    top: 0;
+    left: 0;
+    object-fit: cover; /* Crop image to fit without distortion */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 1s ease-in-out; /* Smooth fade transition */
+}
+
+.ad-mini-slide.active-mini-slide {
+    opacity: 1; /* Make the active slide visible */
+}
+
+/* Styling for custom icon images (aviator, casino, etc.) */
+.icon-img {
+    width: 35px; /* Set a consistent size for custom icons */
+    height: 35px;
+    background-size: contain; /* Ensure background image fits within the bounds */
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 0; /* No bottom margin as flex-direction is row */
+}
+
+/* Placeholder for your specific icon images - REPLACE WITH ACTUAL PATHS */
+.aviator { background-image: url('aviator.jpeg');}
+
+
+
+/* Specific styling for the balance text in the person nav item */
+#person-nav-item .balance-text {
+    font-weight: bold;
+    color: #eff1ef; /* Light color for balance */
+    font-size: 1em; /* Slightly larger text for balance */
+
+}
+
+/* In your main CSS file (e.g., style.css) */
+
+/* Ensure the body acts as a flex container for full height management */
+body {
+    margin: 0; /* Remove default body margin */
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #0e0125;
+    color: #333;
+    line-height: 1.6;
+
+    /* REPEAT YOUR FLEX PROPERTIES HERE, and make sure this rule is the last/most specific one for body */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures body takes full viewport height */
+    padding-bottom: 70px; /* From your existing code */
+}
+
+/* Ensure your main content area takes up the remaining height */
+main {
+    flex-grow: 1; /* Allows main to grow and fill available space in the flex column */
+    position: relative; /* Crucial for .page-section absolute positioning */
+    overflow: hidden; /* Prevents content spill during transitions */
+    width: 100%; /* Ensure it takes full width */
+    /* Add a background for testing visibility if needed */
+    /* background-color: #0d0a3d; */ /* Dark blue, slightly lighter than body */
+}
+
+/* Your .page-section and .page-section.active CSS (as provided in the previous full solution) */
+/* This needs to be correctly implemented as discussed before */
+.page-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Now this can correctly resolve to 100% of main's height */
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: #333;
+    color: #eee;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    display: none; /* Managed by JS for transition timing */
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.page-section.active {
+    display: block;
+    position: relative; /* CRUCIAL for taking up space */
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+}
+
+
+/* Main Content Area */
+
+
+
+/* Page Section Styling */
+/* Page Section Styling: This is the core for hiding/showing pages */
+
+.page-section h1 {
+    color: #f2f5f8;
+    font-size: 1.8em; /* Readable heading size */
+    margin-bottom: 10px;
+    border-bottom: 2px solid #eee; /* Subtle separator */
+    padding-bottom: 10px;
+}
+
+.page-section h2,h4 {
+    color: #e7e4e4;
+    font-size: 1.4em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.page-section h6 {
+    color: #dcdcdc;
+    
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.page-section p {
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #dbd9d9;
+}
+
+.page-section button {
+    background-color: #dc3545; /* Red for logout button */
+    color: white;
+    
+    border: none;
+
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s ease;
+    margin-top: 10px;
+}
+
+.page-section button:hover {
+    background-color: #c82333;
+}
+
+
+
+
+/* Add padding to the body to account for the fixed nav, if your nav is fixed */
+/* You have .content as grid, not fixed. If you make it fixed bottom, you need this: */
+
+
+
+
+
+
+
+
+/* Page Section Styling: This is the core for hiding/showing pages */
+/* --- Base styles for all page sections --- */
+
+/* --- Styles for the currently active (visible) page section --- */
+
+/* Basic styles for navigation items, as they trigger page changes */
+.nav-item {
+    cursor: pointer; /* Indicates clickable elements */
+    /* Other styling for nav-item (background, color, etc.) would be here */
+}
+
+.nav-item.active-nav-item {
+    /* Styling to indicate the currently active navigation item */
+    background-color: #4d4e4e; /* Example active background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Home Page Specific Layout (Adverts and Video) */
+.main-content-container {
+    display: flex;
+    flex-direction: column; /* Stack vertically on small screens */
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Left Placeholder (now containing a table) */
+
+
+
+/* Center Ads (now containing a table in ad-banner ad-first) */
+.center-ads {
+    display: flex;
+    flex-direction: column; /* Stack ads vertically on mobile */
+    gap: 10px;
+}
+.common-table {
+    width: 100%; /* Full width for the table */
+    border-collapse: collapse; /* Remove space between table cells */
+    margin-top: 10px; /* Space above the table */
+    color: #dad5d5;
+}
+.common-table th, .common-table td {
+    border: 1px solid #ddd; /* Light border for table cells */
+    padding: 8px; /* Padding for table cells */
+    text-align: left; /* Left align text in cells */
+}
+
+.common-table .odd-cell.selected-odd {
+    background-color: #06a15b; /* Green background for selected odds */
+    color: white; /* White text for selected odds */
+     /* Fixed width for selected odds */
+    font-weight: bold;
+    border: 2px solid #04804c; /* Added a slightly darker green border for emphasis */ 
+    padding: 5px; /* Adjusted padding for better spacing */
+    /* Adjusted height for better visibility */
+}
+.common-table .odd-cell {
+    cursor: pointer; /* Pointer cursor for clickable odds */
+    transition: background-color 0.2s ease; /* Smooth transition for hover effect */
+    border-radius: 10px; /* Rounded corners for table cells */
+}
+
+
+
+/* General Ad Banner Styles (for ad-banner ad-second) */
+.ad-banner {
+    background-color: #e9ecef; /* Light background */
+    height: 120px;
+    border-radius: 8px;
+    display: flex; /* Keep flex for simple text/image ads */
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-style: italic;
+    flex-grow: 1;
+    padding: 10px;
+    text-align: center;
+
+
+}
+
+
+
+
+.ad-first::before { content: "Main Ad 1"; } /* This will be hidden by the table content */
+.ad-second::before { content: "Main Ad 2"; }
+
+
+/* Specific Ad Banner for the first ad (containing a table) */
+.ad-banner.ad-first {
+    background-color: #c9cbce; /* Specific background for this ad banner */
+    height: 200px; /* Adjusted height for table content */
+    display: block; /* Crucial: Make it a block container for the table */
+    overflow-y: auto; /* Add scroll if table content exceeds height */
+    /* Other properties like border-radius, padding, box-shadow are inherited from .ad-banner */
+}
+
+---
+
+/* NEW: General Table Styling for all your tables */
+/* Apply this class directly to your <table> elements in HTML, e.g., <table class="common-table"> */
+
+
+
+
+
+
+/* NEW: Specific Table Style for a "red theme" (optional override) */
+/* Apply this class in addition to .common-table, e.g., <table class="common-table red-theme"> */
+
+---
+
+.video-wrapper {
+    background-color: #333;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+}
+
+.video-wrapper video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+
+/* Footer Styling */
+footer {
+    background-color: #343a40; /* Darker footer background */
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 0.85em;
+    margin-top: auto; /* Pushes footer to the bottom */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Sidebar Styles */
+.sidebar {
+    height: 100%; /* Full height */
+    width: 0; /* 0 width by default, expand on open */
+    position: fixed; /* Stay in place */
+    z-index: 2000; /* High z-index to be on top of other content */
+    top: 0;
+    left: 0;
+    background-color: #343a40; /* Dark background */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    transition: 0.5s; /* Smooth transition effect */
+    padding-top: 60px; /* Place content a bit down from the top */
+    box-shadow: 2px 0 10px rgba(0,0,0,0.5); /* Subtle shadow */
+    color: white;
+}
+
+.sidebar.open {
+    width: 250px; /* Width when open, adjust as needed */
+}
+
+.sidebar .sidebar-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    background-color: #282c30; /* Slightly darker header for sidebar */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #444;
+}
+
+.sidebar .sidebar-header h3 {
+    margin: 0;
+    color: white;
+    font-size: 1.5em;
+}
+
+.sidebar .close-sidebar {
+    background: none;
+    border: none;
+    font-size: 2.5em;
+    color: white;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 10px;
+}
+
+.sidebar .sidebar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar .sidebar-nav li a {
+    padding: 15px 25px;
+    text-decoration: none;
+    font-size: 1.1em;
+    color: #e0e0e0;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar .sidebar-nav li a:hover {
+    color: white;
+    background-color: #909294; /* Highlight on hover */
+}
+
+/* Overlay for when sidebar is open */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent overlay */
+    z-index: 1500; /* Below sidebar, above content */
+    display: none; /* Hidden by default */
+    cursor: pointer;
+}
+
+.overlay.visible {
+    display: block;
+}
+
+/* Adjust main content when sidebar is open (optional, but good for UX) */
+body.sidebar-open main,
+body.sidebar-open .content,
+body.sidebar-open footer,
+body.sidebar-open header {
+    margin-left: 250px; /* Same width as sidebar */
+    transition: margin-left 0.5s ease; /* Smooth transition for content shift */
+}
+
+
+/* Media queries for responsiveness */
+/* Mobile-specific adjustments (max-width: 480px) */
+@media (max-width: 480px) {
+    .sidebar.open {
+        width: 80%; /* Take 80% of screen width on very small devices */
+    }
+    body.sidebar-open main,
+    body.sidebar-open .content,
+    body.sidebar-open footer,
+    body.sidebar-open header {
+        margin-left: 80%; /* Adjust content shift for smaller screens */
+    }
+    .nav-item {
+        flex-direction: column; /* Stack icon, text, and ad vertically on small screens */
+        justify-content: center;
+        gap: 2px;
+        padding: 5px 2px;
+    }
+    .ad-carousel-mini {
+        margin-left: 0; /* No left margin when stacked vertically */
+        margin-top: 2px; /* Small space when stacked vertically */
+    }
+}
+
+/* Tablet/Desktop adjustments (min-width: 768px) */
+@media (min-width: 768px) {
+    .content {
+        /* On larger screens, force 4 columns to fit all items horizontally */
+        grid-template-columns: repeat(4, 1fr); /* Adjusted for 4 main nav items: Menu, Home, Aviator, Person */
+        gap: 15px;
+        padding: 20px;
+        margin-top: 20px; /* More space from header */
+    }
+
+    .nav-item {
+        padding: 20px 10px;
+        min-height: 90px;
+    }
+
+    .nav-item i {
+        font-size: 2.5em;
+    }
+
+    .nav-item p {
+        font-size: 1em;
+    }
+
+    main {
+        padding: 30px;
+    }
+
+    .main-content-container {
+        flex-direction: row; /* Layout left, center, right horizontally */
+        align-items: flex-start;
+    }
+
+    .left-placeholder {
+        flex: 1;
+        min-height: 250px;
+    }
+
+    .center-ads {
+        flex: 2;
+        flex-direction: row; /* Ads side-by-side on larger screens */
+        height: auto;
+    }
+
+    .ad-banner {
+        height: 250px;
+    }
+
+    .right-video {
+        flex: 1;
+    }
+
+    .video-wrapper {
+        padding-bottom: 56.25%;
+        height: 0;
+    }
+}
+
+/* Even larger screens (e.g., very wide desktops) */
+@media (min-width: 1024px) {
+    .content {
+        grid-template-columns: repeat(4, 1fr); /* Maintain 4 columns */
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .nav-item {
+        min-height: 100px;
+    }
+
+    .page-section h1 {
+        font-size: 2.2em;
+
+    }
+    .page-section h2 {
+        font-size: 1.8em;
+        color: #f44336;
+    }
+
+}
+
+
+
+
+.modal {
+    /* Initially hidden, will be flex when 'visible' */
+    display: none;
+    position: fixed;
+    z-index: 2001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    /* Allows clicks to pass through the background overlay */
+    pointer-events: none; /* Keep this as 'none' so clicks go through the overlay */
+    /* background-color: rgba(0,0,0,0.6); -- REMOVED FOR CLEAR BACKGROUND */
+    /* Align content to the bottom */
+    display: flex; /* Keep flex for positioning even when hidden */
+    justify-content: center;
+    align-items: flex-end; /* Pushes content to the bottom */
+    /* backdrop-filter: blur(5px); -- REMOVED TO PREVENT FULL PAGE BLUR */
+    transition: background-color 0.3s ease; /* Smooth transition for overlay */
+}
+
+.modal.visible {
+    display: flex; /* Show the modal */
+    /* No change to pointer-events here, it remains 'none' for the modal container */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border-radius: 10px 10px 0 0; /* Rounded top corners, sharp bottom */
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.3); /* Shadow at the top */
+    position: relative;
+    width: 95%; /* Responsive width */
+    max-width: 400px; /* Max width for larger screens */
+    color: #333;
+    /* Initial position: off-screen at the bottom */
+    transform: translateY(100%);
+    opacity: 0;
+    /* Animation for sliding up */
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    margin-bottom: 0; /* Ensure it sticks to the bottom */
+    pointer-events: auto; /* IMPORTANT: Enable pointer events ONLY on the content */
+}
+
+.modal.visible .modal-content {
+    transform: translateY(0); /* Slide up into view */
+    opacity: 1;
+}
+
+.modal-content h2 {
+    text-align: center;
+    color: #1dcc7d;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.6em;
+}
+
+.close-button {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#selected-bets-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    max-height: 200px; /* Limit height and add scroll for many bets */
+    overflow-y: auto;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.bet-slip-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95em;
+    color: #555;
+}
+
+.bet-slip-item:last-child {
+    border-bottom: none;
+}
+
+.bet-slip-item strong {
+    color: #1dcc7d; /* Green for odds */
+}
+
+.bet-slip-item .remove-bet-btn {
+    background: none;
+    border: none;
+    color: #dc3545; /* Red for remove button */
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    width: 30px; /* Make it a circle */
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bet-slip-item .remove-bet-btn:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.bet-summary {
+    background-color: #e9f7ef; /* Light green background for summary */
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+}
+
+.bet-summary p {
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.bet-summary span {
+    color: #1dcc7d; /* Green for values */
+}
+
+.stake-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.stake-input-group label {
+    flex-shrink: 0;
+    color: #333;
+    font-weight: normal; /* Override default button label styling */
+}
+
+
+.stake-input-group input[type="number"] {
+    flex-grow: 1;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    text-align:center  ;
+    max-width: 150px;
+}
+
+#place-bet-button {
+    background-color: #1dcc7d; /* Green place bet button */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    width: 100%;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+#place-bet-button:hover {
+    background-color: #17a863;
+    transform: translateY(-1px);
+}
+
+#place-bet-button:active {
+    transform: translateY(0);
+}
+
+/* Responsive adjustments for modal */
+@media (max-width: 600px) {
+    .modal-content {
+        width: 95%; /* Take more width on smaller screens */
+        padding: 15px;
+    }
+    .modal-content h2 {
+        font-size: 1.4em;
+    }
+    .bet-slip-item {
+        font-size: 0.9em;
+        padding: 8px 10px;
+    }
+    .bet-slip-item .remove-bet-btn {
+        font-size: 1em;
+        width: 9px;
+        height: 5px;
+    }
+    .bet-summary {
+        font-size: 1em;
+        padding: 10px;
+    }
+    .stake-input-group input[type="number"] {
+        padding: 6px;
+    }
+    #place-bet-button {
+        padding: 10px 15px;
+        font-size: 1em;
+    }
+
+}
+/* General Resets and Base Styles */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* Hide arrows in Chrome/Safari */
+    margin: 0;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em; /* Use relative font size */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
+    font-weight: bold;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    flex-grow: 1; /* Allow buttons to grow */
+    min-width: 100px; /* Minimum width for buttons */
+    box-sizing: border-box; /* Ensure padding/border are included in width */
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+#start-button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+#start-button:hover { background-color: #45a049; }
+
+#cash-out-button {
+    background-color: #f44336; /* Red */
+    color: white;
+    display: none; /* Hidden initially */
+}
+#cash-out-button:hover { background-color: #da190b; }
+
+.display-area {
+    text-align: center;
+    margin-top: 10px;
+}
+
+#multiplier-display {
+    font-size: 2.5em; /* Relative font size */
+    font-weight: bold;
+    color: #61dafb; /* Light blue */
+    min-height: 1.2em; /* Prevent layout shift */
+}
+
+#status-message {
+    font-size: 1.1em; /* Relative font size */
+    color: #bbb;
+    min-height: 1.1em; /* Prevent layout shift */
+}
+
+/* --- Aviator Page Specific Styles (Matching Image) --- */
+
+.aviator-header {
+    width: 100%;
+    background-color: #2c2c2c; /* Darker header background */
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #3a3a3a;
+    box-sizing: border-box;
+    color: #e0e0e0;
+    font-size: 0.9rem; /* Relative font size */
+}
+
+.aviator-header .left-section {
+    display: flex;
+    align-items: center;
+}
+
+.aviator-header .left-section i {
+    margin-right: 10px;
+    color: #888;
+}
+
+.aviator-header .title {
+    font-weight: bold;
+    font-size: 1.1rem; /* Relative font size */
+    color: #e0e0e0;
+}
+
+.aviator-header .balance-info {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem; /* Relative font size */
+}
+
+.aviator-header .balance-info span {
+    margin-left: 5px;
+    color: #FFD700;
+    font-weight: 600;
+}
+
+.aviator-header .right-section {
+    display: flex;
+    align-items: center;
+}
+
+.aviator-header .right-section button {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 0.9rem; /* Relative font size */
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: color 0.2s;
+    /* Reset button specific styles from global rule */
+    min-width: unset;
+    flex-grow: unset;
+    box-shadow: none;
+    font-weight: normal;
+}
+
+.aviator-header .right-section button:hover {
+    color: #e0e0e0;
+}
+
+.aviator-header .right-section i {
+    margin-left: 15px;
+    color: #888;
+}
+
+#gameCanvas {
+    width: 100%; /* Make canvas width responsive */
+    max-width: 600px; /* Limit max width for larger screens */
+    height: 300px; /* Fixed height for the canvas as per image */
+    background-color: #000;
+    display: block;
+    margin-top: 10px;
+    border-radius: 8px;
+    overflow: hidden;
+    /* Center the canvas horizontally on larger screens */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.game-info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #e0e0e0;
+    text-align: center;
+    z-index: 10;
+    width: 90%; /* Make info responsive, adjust as needed */
+    box-sizing: border-box;
+}
+
+.game-info #multiplier-display {
+    font-size: 3.5rem; /* Relative font size */
+    font-weight: bold;
+    color: #61dafb;
+    text-shadow: 0 0 10px rgba(97, 218, 251, 0.5);
+}
+
+.game-info #status-message {
+    font-size: 1.2rem; /* Relative font size */
+    color: #ccc;
+    margin-top: 5px;
+}
+
+/* Betting Controls Container */
+.betting-controls-container {
+    width: 100%;
+    max-width: 600px; /* Limit max width for larger screens */
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* Center on larger screens */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.betting-block {
+    background-color: #2c2c2c;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bet-auto-tabs {
+    display: flex;
+    width: 100%;
+    background-color: #3a3a3a;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.bet-auto-tab {
+    flex: 1;
+    padding: 10px 0;
+    text-align: center;
+    color: #e0e0e0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 0.95rem; /* Relative font size */
+}
+
+.bet-auto-tab.active-tab {
+    background-color: #4a4a4a;
+    color: #61dafb;
+}
+
+.bet-input-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.bet-input-group button {
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 1.2rem; /* Relative font size */
+    cursor: pointer;
+    transition: background-color 0.2s;
+    /* Override global button flex-grow/min-width for input group buttons */
+    flex-grow: unset;
+    min-width: unset;
+    box-shadow: none;
+    font-weight: normal;
+}
+
+.bet-input-group button:hover {
+    background-color: #4a4a4a;
+}
+
+.bet-input-group input {
+    width: 24px;
+    background-color: #790f0f;
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 2px 3px;
+    color: #e0e0e0;
+    text-align: center;
+    font-size: 1rem; /* Relative font size */
+}
+
+.quick-bet-amounts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 buttons per row */
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+
+
+
+
+.quick-bet-amounts button {
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 5px;
+    font-size: 0.85rem; /* Relative font size */
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    /* Ensure they respect grid sizing without specific min/flex-grow */
+    min-width: unset;
+    flex-grow: unset;
+    box-shadow: none; /* No extra shadow on these small buttons */
+}
+
+.quick-bet-amounts button:hover {
+    background-color: #4a4a4a;
+}
+
+.place-game-bet-button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem; /* Relative font size */
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s;
+    box-sizing: border-box; /* Ensure padding is included */
+}
+
+.place-game-bet-button:hover {
+    background-color: #45a049;
+}
+
+/* Bets History Section */
+.bets-history-section {
+    width: 100%;
+    max-width: 600px; /* Limit max width for larger screens */
+    padding: 15px;
+    box-sizing: border-box;
+    background-color: #2c2c2c;
+    border-radius: 10px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    /* Center on larger screens */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.history-tabs {
+    display: flex;
+    width: 100%;
+    background-color: #3a3a3a;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.history-tab {
+    flex: 1;
+    padding: 10px 0;
+    text-align: center;
+    color: #e0e0e0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 0.95rem; /* Relative font size */
+}
+
+.history-tab.active-tab {
+    background-color: #4a4a4a;
+    color: #61dafb;
+}
+
+/* --- Scrolling Bets Table (History) --- */
+.scrolling-wrapper {
+    height: 200px; /* Fixed height can be problematic; consider max-height */
+    width: 100%;
+    max-width: 500px; /* Limit max width */
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #b3abab;
+    border-radius: 10px;
+    color: #dfdada;
+    margin: 0 auto; /* Center the wrapper on larger screens */
+    box-sizing: border-box;
+}
+
+.scrolling-bets-content {
+    display: inline-block; /* This might need adjustment with the JS `setupContinuousScroll` */
+    animation: scroll-up 15s linear infinite;
+    /* Note: The JS `setupContinuousScroll` dynamically sets the animation keyframes.
+       Ensure its logic aligns with the HTML structure you intend to scroll. */
+}
+
+@keyframes scroll-up {
+    0% { transform: translateY(0%); }
+    100% { transform: translateY(-50%); } /* This keyframe needs to be dynamic based on content height for perfect loop */
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Ensures columns respect defined widths */
+}
+
+/* Style for the header cells */
+th {
+    background-color: #222;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+    font-size: 0.9rem;
+    word-wrap: break-word;
+    color: white; /* Ensure header text is visible on dark background */
+}
+
+/* Specific width for the 'Teams' header */
+th:first-child {
+    width: 45%; /* Adjust this percentage to make the 'Teams' header wider */
+    text-align: left; /* Align 'Teams' header to the left */
+}
+
+/* Width for 'Home', 'X', and 'Away' headers */
+th:nth-child(2),
+th:nth-child(3),
+th:nth-child(4) {
+    width: 18.33%; /* (100 - 45) / 3 = 55 / 3 = 18.33% */
+}
+
+/* Style for the team name cells (first td in each row) */
+table tr td:first-child {
+    width: 45%; /* Match the header width for the team names */
+    text-align: left; /* Align team names to the left */
+    padding: 10px; /* Consistent padding */
+    border: 1px solid #3f3e3e; /* Example border, adjust as needed */
+    color: white; /* Ensure text is visible on dark background */
+}
+
+/* Style for the odd cells (Home, X, Away) */
+table .odd-cell {
+    width: 18.33%; /* Distribute remaining width evenly */
+    text-align: center; /* Center the odds */
+    padding: 10px; /* Consistent padding */
+    border: 1px solid #3f3e3e; /* Example border, adjust as needed */
+    color: white; /* Ensure text is visible on dark background */
+}
+
+/* General style for all data cells */
+td {
+    padding: 10px;
+    text-align: center; /* Default for other tds if not overridden */
+    border-bottom: 1px solid #333;
+    font-size: 0.9rem;
+    word-wrap: break-word;
+}
+
+/* Zebra striping for rows */
+tr:nth-child(even) {
+    background-color: #1a1a1a; /* Darker background for even rows */
+}
+
+tr:nth-child(odd) {
+    background-color: #0d0d0d; /* Slightly lighter background for odd rows to show distinction */
+}
+
+
+/* ... (your existing table and cell styles) ... */
+
+.time-info {
+    font-size: 0.7em; /* Makes the font 70% of its parent's font size */
+    color: #00ff37; /* Example: Orange color. You can use any hex code or named color */
+    display: block; /* Makes it appear on a new line, similar to <br> but allows more styling control */
+    margin-top: 2px; /* Add a little space above it */
+}
+
+/* If you want it to be on the same line but smaller and different color, remove display: block; */
+/* .time-info {
+    font-size: 0.7em;
+    color: #FFA500;
+} */
+
+
+/* --- Media Queries for Larger Screens --- */
+@media (min-width: 768px) {
+    /* Adjustments for tablets and desktops */
+
+    #aviator-page {
+        padding: 20px; /* Add some padding on larger screens */
+    }
+
+    .aviator-header {
+        padding: 15px 30px; /* More padding for header */
+        font-size: 1rem;
+    }
+
+    .aviator-header .title {
+        font-size: 1.3rem;
+    }
+
+    .aviator-header .balance-info {
+        font-size: 1rem;
+    }
+
+    .aviator-header .right-section button {
+        font-size: 1rem;
+        padding: 8px 15px;
+    }
+
+    #gameCanvas {
+        height: 400px; /* Taller canvas on larger screens */
+        margin-top: 20px;
+        border-radius: 12px;
+    }
+
+    .game-info #multiplier-display {
+        font-size: 5rem; /* Even larger multiplier */
+    }
+
+    .game-info #status-message {
+        font-size: 1.5rem;
+    }
+
+    .betting-controls-container {
+        flex-direction: row; /* Layout betting blocks side-by-side */
+        justify-content: center; /* Center them */
+        align-items: flex-start; /* Align to top if blocks have different heights */
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .betting-block {
+        flex: 1; /* Allow blocks to take equal space */
+        max-width: 200px; /* Limit individual block width */
+        padding: 20px;
+    }
+
+    .place-game-bet-button {
+        padding: 18px;
+        font-size: 1.3rem;
+    }
+
+
+    .bets-history-section {
+        padding: 20px;
+        margin-top: 30px; /* More space from controls */
+    }
+
+    .quick-bet-amounts {
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* More flexible grid */
+    }
+
+    th, td {
+        font-size: 1rem; /* Slightly larger font for table cells */
+    }
+}
+
+/* --- Media Query for very small screens (e.g., iPhone 5/SE) --- */
+@media (max-width: 360px) {
+    .aviator-header {
+        padding: 8px 10px; /* Reduce header padding */
+        font-size: 0.8rem;
+    }
+
+    .aviator-header .title {
+        font-size: 1rem;
+    }
+
+    .aviator-header .balance-info {
+        font-size: 0.8rem;
+    }
+
+    .bet-auto-tab, .history-tab {
+        font-size: 0.8rem; /* Smaller tab fonts */
+        padding: 8px 0;
+    }
+
+    .quick-bet-amounts button {
+        font-size: 0.75rem; /* Smaller quick bet buttons */
+        padding: 8px 3px;
+    }
+
+    th, td {
+        font-size: 0.8rem; /* Smaller table text */
+        padding: 8px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,77 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X Bet - Register</title>
+    <!-- Link to your CSS file for styling the registration page -->
+    <link rel="stylesheet" href="register_style.css">
+    <!-- Optionally, link to Bootstrap Icons if you plan to use them -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+</head>
+<body>
+
+    <div class="register-container">
+        <h1>Welcome to </h1>
+       <h1 class="website-name">
+     
+            <i class="bi bi-xbox"></i> 
+    <span class="letter-b">B</span><span class="letter-e">e</span><span class="letter-t">t</span>
+</h1>
+       
+        <h2>Register</h2>
+
+        <form id="registerForm" action="/register" method="POST"> <!-- action="#" as JS will handle submission -->
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="username" required>
+            </div>
+
+           <div class="input-group">
+    <label for="phoneNumber">Phone Number:</label> 
+    <div class="phone-input-wrapper">
+        <span class="country-code">+254</span>
+        <input type="tel" id="phoneNumber" name="phoneNumberDigits" placeholder="Enter phone number e.g 7....." pattern="^[0-9]{9}$" required autocomplete="tel">
+    </div>
+    
+</div>
+
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email"    placeholder="Enter Email" required >
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password"  placeholder="Enter strong password" minlength="8">
+                <small>Password must be at least 8 characters long.</small> <!-- Added hint for password length -->
+            </div>
+
+            <div class="input-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Rewrite your password" required>
+            </div>
+
+            <div class="terms-checkbox">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">I agree to the <a href="#" target="_blank">Terms and Conditions</a></label>
+            </div>
+
+            <button type="submit" class="register-button">Register</button>
+            <p class="error-message" id="register-error-message"></p>
+        </form>
+
+        <p class="login-link">Already have an account? <a href="login.html">Login here</a></p>
+        <p class="home-link"><a href="index.html">Back to Home</a></p>
+    </div>
+
+    
+    
+
+
+
+    <script src="register.js">    </script>
+</body>
+</html>

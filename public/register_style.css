@@ -1,0 +1,277 @@
+body {
+    background-color: #333;
+    /* * CORRECTION/ADDITION: For the .register-container to be truly centered
+     * using 'margin: 20px;' and 'max-width', the body needs to be a flex container.
+     * This will correctly center the .register-container horizontally
+     * and align it vertically within the viewport.
+     */
+    display: flex; 
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    min-height: 100vh; /* Ensures body takes full viewport height */
+    margin: 0; /* Remove default body margin */
+    padding: 20px; /* Add overall page padding to prevent container touching edges */
+    box-sizing: border-box; /* Include padding in body's total height */
+}
+
+.register-container {
+    background-image: linear-gradient(to bottom, #1e163f, #026607);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    /* * CORRECTION: 'margin: 20px;' alone would prevent horizontal centering if body isn't flex.
+     * If the body is flex (as added above), 'margin: auto;' will center it within the flex item.
+     * 'margin: 20px auto;' will apply 20px top/bottom margin and auto for left/right.
+     */
+    margin: 20px auto; /* Allows horizontal centering with max-width */
+    color: #f3efef;
+    /* * ADDITION: Ensure content inside is centered horizontally by default
+     * for elements like h1, h2, p, etc. that aren't flexed or blocked.
+     */
+    text-align: center; 
+}
+
+h2 { /* Targeting h2 directly, as it's within .register-container */
+    text-align: center; /* This is redundant if .register-container has text-align: center */
+    margin-bottom: 25px;
+    color: #eee7e7;
+    font-size: 1.8em;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+/* Styles for the wrapper that holds the country code and the input */
+.phone-input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background-color: #555;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    /* * CORRECTION: If you want the combined input to match the other inputs
+     * when they have padding: 12px; and background-color: #333; (from below),
+     * you need to adjust this wrapper's styling or remove it.
+     * The current styling here (.phone-input-wrapper) conflicts with the
+     * generic input styling later.
+     *
+     * To make it look consistent, apply the generic input styles here:
+     */
+    padding: 0; /* Remove padding from wrapper itself, let children handle */
+    background-color: #333; /* Match other inputs */
+    border: 1px solid #444; /* Match other inputs */
+    box-shadow: none; /* No extra shadow on this wrapper, let focus handle it */
+}
+
+/* Styles for the '+254' part */
+.phone-input-wrapper .country-code {
+    padding: 10px 8px; /* This padding is fine for the span */
+    /* Keep this background for visual distinction */
+    color: #f5efef;
+    font-size: 1em;
+    font-weight: bold;
+    
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+/* Styles for the actual input field */
+.phone-input-wrapper input[type="tel"] {
+    flex-grow: 1;
+    border: none;
+    background: none; /* Inherit background from wrapper */
+    padding: 12px; /* Set padding to match other inputs (from generic input styles below) */
+    color: #fcf7f7; /* Match other inputs */
+    font-size: 1em;
+    box-sizing: border-box;
+    margin: 0; /* Important: remove any default margins */
+    /* * ADDITION: Add transition for consistency with other inputs.
+     * Border-color transition will be visible if the wrapper's border changes on focus.
+     */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+}
+
+/*
+ * CORRECTION/CLARIFICATION: These generic input styles apply to *all* inputs,
+ * including the phone input, unless specifically overridden by the more specific
+ * '.phone-input-wrapper input[type="tel"]' rule.
+ *
+ * The `width: 100%`, `padding`, `border-radius`, `border`, `background-color`,
+ * `color`, `font-size`, and `box-sizing` rules here will apply to all inputs.
+ * The `phone-input-wrapper` styles need to be adjusted to either mirror these
+ * or explicitly override them for the phone input's wrapper.
+ */
+.register-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    color: #f1efef;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ece4e4;
+    font-size: 0.95em;
+    /* * CORRECTION: This rule is duplicated later. Keep one.
+     * The one specific to .input-group label should be sufficient.
+     */
+}
+
+.input-group input[type="text"],
+.input-group input[type="email"],
+/* REMOVAL: Do not apply to input[type="tel"] directly here IF
+   you want .phone-input-wrapper input[type="tel"] to control it */
+/* .input-group input[type="tel"], */ 
+.input-group input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: #f0eded;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* * CORRECTION: This rule applies to all inputs including the tel input.
+ * To make the focus effect work on the combined phone number input,
+ * you need to target the .phone-input-wrapper itself when its *internal*
+ * input is focused.
+ */
+.input-group input:focus {
+    border-color: #02972f;
+    box-shadow: 0 0 8px rgba(2, 151, 47, 0.5);
+    outline: none;
+}
+/* ADDITION for phone number focus effect */
+.phone-input-wrapper:has(input[type="tel"]:focus) {
+    border-color: #02972f;
+    box-shadow: 0 0 8px rgba(2, 151, 47, 0.5);
+    outline: none; /* Remove default outline */
+}
+
+.input-group small {
+    display: block;
+    color: #f0e8e8;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+.terms-checkbox {
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+}
+
+.terms-checkbox input[type="checkbox"] {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    accent-color: #02972f;
+}
+
+.terms-checkbox label {
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+.terms-checkbox a {
+    color: #02972f;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.terms-checkbox a:hover {
+    color: #03c03b;
+    text-decoration: underline;
+}
+
+.register-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.register-button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.register-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.error-message {
+    color: #ff4d4d;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9em;
+    display: none;
+}
+
+.login-link, .home-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+.login-link a, .home-link a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-link a:hover, .home-link a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+    .register-container {
+        padding: 20px;
+        margin: 10px;
+        border-radius: 10px;
+    }
+
+    h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+
+    /* * CORRECTION: Ensure these apply to the actual input field inside the wrapper too.
+     * The `input[type="tel"]` within `.phone-input-wrapper` should also get these adjustments.
+     */
+    .input-group input[type="text"],
+    .input-group input[type="email"],
+    .input-group input[type="password"],
+    /* ADDITION: Explicitly target the phone input within its wrapper for consistency */
+    .phone-input-wrapper input[type="tel"] {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+    .register-button {
+        padding: 12px;
+        font-size: 1em;
+    }
+}

@@ -1,0 +1,297 @@
+/* --- Styles specifically for elements inside the #person-page --- */
+
+#person-page {
+    padding: 20px; /* Global padding for the page content */
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+}
+
+#person-page .profile-info {
+    background-color: #444; /* The outer grey box */
+    padding: 30px;
+    border-radius: 10px;
+    
+    max-width: 600px; /* Your "fixed width" for larger screens */
+    
+    margin: 30px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+    width: calc(100% - (30px * 2)); /* Account for its own padding */
+    box-sizing: border-box;
+}
+
+/* Headings, paragraphs, labels, and inputs within .profile-info */
+#person-page .profile-info h1 {
+    color: #eaedf0;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+}
+
+#person-page .profile-info p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+#person-page .profile-info label {
+    display: block;
+    text-align: left;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #bbb;
+}
+
+#person-page .profile-info input[type="text"],
+#person-page .profile-info input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background-color: #555;
+    color: #eee;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+#person-page .profile-info button { /* General button style inside profile-info */
+    background-color: #28a745;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+#person-page .profile-info button:hover {
+    background-color: #218838;
+}
+
+
+/* --- Deposit Grid Container Styles (nested inside .profile-info) --- */
+.deposit-grid-container {
+    display: grid;
+    /* Default to 3 columns, as seen in your screenshot as the initial problematic state.
+       We'll reduce this further for very small screens. */
+    grid-template-columns: repeat(3, 1fr); 
+    grid-template-rows: auto;
+
+    gap: 8px; /* Slightly tighter gap */
+    padding: 10px; /* Slightly tighter padding inside the grid */
+    background-color: #0d0a3d;
+    border-radius: 8px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    
+    width: 100%; /* Fill 100% of its parent's content area */
+    box-sizing: border-box; /* Crucial: Includes its own padding in the 100% width */
+}
+
+/* Styling for each deposit amount button (inside the grid) */
+.deposit-amount-btn {
+    background-color: #040124;
+    color: #fff;
+    border: 1px solid #61dafb;
+    /* Reduced default padding and font-size slightly to give more room */
+    padding: 12px 8px; 
+    font-size: 1em; 
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box; /* CRITICAL: Ensures padding/border are included in the 1fr width */
+}
+
+.deposit-amount-btn:hover {
+    background-color: #1b1b4a;
+    border-color: #4dcfff;
+}
+
+.deposit-amount-btn.selected {
+    background-color: #61dafb;
+    color: #040124;
+    border-color: #61dafb;
+}
+
+/* Custom amount input styling (nested inside .profile-info) */
+.custom-deposit {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #eee;
+    display: grid;
+    grid-template-columns: 1fr auto; /* Label takes space, input/button takes auto */
+    gap: 10px;
+    align-items: center;
+    max-width: 350px; /* Limit width for this section */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.custom-deposit label {
+    text-align: right;
+    margin-bottom: 0;
+}
+
+.custom-deposit input[type="number"] {
+    padding: 10px;
+    width: 120px; /* Fixed width for the input field */
+    border: 1px solid #61dafb;
+    border-radius: 5px;
+    background-color: #0d0a3d;
+    color: #fff;
+    font-size: 1em;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.custom-deposit input[type="number"]::placeholder {
+    color: #aaa;
+}
+
+#proceed-deposit-btn {
+    grid-column: 2; /* Place it in the second column of the custom-deposit grid */
+    padding: 12px 8px; /* Adjusted padding to fit */
+    font-size: 0.9em; /* Adjusted font size */
+    margin: 0;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    box-sizing: border-box;
+    height: 100%; /* Make button fill its grid cell height */
+}
+
+#proceed-deposit-btn:hover {
+    background-color: #45a049;
+}
+
+
+/* --- Media Queries for Responsiveness --- */
+
+/* For screens up to 768px wide (typical tablets) */
+@media (max-width: 768px) {
+    #person-page {
+        padding: 15px;
+    }
+
+    #person-page .profile-info {
+        padding: 20px;
+        width: calc(100% - (20px * 2));
+        max-width: unset;
+    }
+
+    .deposit-grid-container {
+        grid-template-columns: repeat(4, 1fr); /* 4 columns on tablets */
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .deposit-amount-btn {
+        font-size: 1em; /* Keep font size standard for tablets */
+        padding: 10px 6px; /* Slightly less padding */
+    }
+
+    .custom-deposit {
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+    }
+    .custom-deposit label {
+        text-align: right;
+    }
+    .custom-deposit input[type="number"] {
+        width: 100px;
+    }
+    #proceed-deposit-btn {
+        padding: 12px 8px;
+        font-size: 0.9em;
+    }
+}
+
+/* For screens up to 480px wide (common phone portrait) */
+@media (max-width: 480px) {
+    #person-page {
+        padding: 10px;
+    }
+
+    #person-page .profile-info {
+        padding: 15px;
+        width: calc(100% - (15px * 2));
+    }
+
+    .deposit-grid-container {
+        /* CRITICAL CHANGE: Drop to 2 columns on most phones if 3 is overflowing */
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 6px;
+        padding: 8px;
+    }
+
+    .deposit-amount-btn {
+        font-size: 0.9em; /* Smaller font for 2 columns */
+        padding: 8px 5px; /* Tighter padding for 2 columns */
+    }
+
+    .custom-deposit {
+        /* Stack label/input and button vertically on smaller phones */
+        grid-template-columns: 1fr; 
+        gap: 10px;
+    }
+    .custom-deposit label {
+        text-align: center;
+    }
+    .custom-deposit input[type="number"] {
+        width: 100%;
+        max-width: 150px; /* Limit input width even when 100% */
+        margin-left: auto; /* Center the input */
+        margin-right: auto;
+    }
+    #proceed-deposit-btn {
+        grid-column: 1; /* Make button full width in this single column layout */
+        padding: 10px 15px;
+        font-size: 1em;
+        width: 100%;
+        max-width: 200px; /* Max width for cleaner button */
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* For very small screens (e.g., old/tiny phones) */
+@media (max-width: 320px) {
+    #person-page {
+        padding: 5px;
+    }
+
+    #person-page .profile-info {
+        padding: 10px;
+        width: calc(100% - (10px * 2));
+    }
+
+    .deposit-grid-container {
+        grid-template-columns: repeat(2, 1fr); /* Still 2 columns */
+        gap: 4px;
+        padding: 5px;
+    }
+
+    .deposit-amount-btn {
+        font-size: 0.8em; /* Even smaller font */
+        padding: 6px 3px; /* Even tighter padding */
+    }
+    .custom-deposit input[type="number"] {
+        max-width: 120px;
+    }
+    #proceed-deposit-btn {
+        max-width: 180px;
+    }
+}

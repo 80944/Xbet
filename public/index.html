@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>X bet</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 
+</head>
+<body>
+
+    <div class="sidebar" id="sidebar-menu">
+        <div class="sidebar-header">
+            <h3>Menu</h3>
+            <button class="close-sidebar" id="close-sidebar-btn">&times;</button>
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="#" data-page="home-page">Home</a></li>
+            <li><a href="#" data-page="aviator-page">Aviator</a></li>
+            <li><a href="#" data-page="person-page">Account</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <header>
+        <h6> 
+            <i class="bi bi-xbox"></i> bet
+        </h6>
+    </header>
+
+    <div class="content">
+        <div class="nav-item" data-page="menu-page" id="menu-nav-item">
+            <i class="bi bi-justify"></i>
+            <p>Menu</p>
+        </div>
+        <div class="nav-item" data-page="home-page" id="home-nav-item">
+            <i class="bi bi-house"></i>
+            <p>Home</p>
+        </div>
+
+        <div class="nav-item" data-page="aviator-page" id="aviator-nav-item">
+            <i class="bi bi-airplane-fill"></i>
+            <p>Aviator</p>
+        </div>
+
+        <div class="nav-item" data-page="person-page" id="person-nav-item">
+            <i class="bi bi-person"></i>
+            <p class="balance-text">0.00/-</p>
+        </div>
+    </div>
+
+    <main>
+        <div id="home-page" class="page-section active">
+            <h1>Home</h1>
+            <div class="ad-carousel-mini" id="home-mini-ads">
+                <img src="ad.jpeg" alt="Ad 1" class="ad-mini-slide active-mini-slide">
+                <img src="ad2.jpeg" alt="Ad 2" class="ad-mini-slide">
+            </div>
+            <p>Welcome to <i class="bi bi-xbox"></i>bet! Explore our offerings.</p>
+            <h4>soccer</h4>
+            <div class="main-content-container">
+                <h6>International Clubs /Club Friendly Games(6)</h6>
+                <table class="common-table">
+                    <thead>
+                        <tr>
+                            <th>Teams</th>
+                            <th>Home</th>
+                            <th>X</th>
+                            <th>Away</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>RAAL Louviere<br>vs Standard Liege  <span class="time-info">STARTS IN .24'</span> </td><td class="odd-cell" data-odd="1.50" data-match="Man Utd vs Sevilla (Home)">1.50</td><td class="odd-cell" data-odd="3.50" data-match="Man Utd vs Sevilla (Draw)">3.50</td><td class="odd-cell" data-odd="2.00" data-match="Man Utd vs Sevilla (Away)">2.00</td></tr>
+                        <tr><td>Burgos CF<br>vs<br>Barakaldo CF  <span class="time-info">STARTS IN .33'</span></td><td class="odd-cell" data-odd="1.80" data-match="Real Madrid vs PSG (Home)">1.80</td><td class="odd-cell" data-odd="3.00" data-match="Real Madrid vs PSG (Draw)">3.00</td><td class="odd-cell" data-odd="2.50" data-match="Real Madrid vs PSG (Away)">2.50</td></tr>
+                        <tr><td>AI Sadd SC<br>vs<br>Sporting Gijon  <span class="time-info">STARTS IN .30'</span></td><td class="odd-cell" data-odd="2.10" data-match="Barcelona vs Bayern (Home)">2.10</td><td class="odd-cell" data-odd="3.10" data-match="Barcelona vs Bayern (Draw)">3.10</td><td class="odd-cell" data-odd="1.90" data-match="Barcelona vs Bayern (Away)">1.90</td></tr>
+                        <tr><td>Levante UD<br>vs<br>Neom SC <span class="time-info">STARTS IN .45'</span></td><td class="odd-cell" data-odd="1.75" data-match="Liverpool vs Dortmund (Home)">1.75</td><td class="odd-cell" data-odd="3.30" data-match="Liverpool vs Dortmund (Draw)">3.30</td><td class="odd-cell" data-odd="2.20" data-match="Liverpool vs Dortmund (Away)">2.20</td></tr>
+                        <tr><td>Cadiz CF<br>vs<br>Granada CF   <span class="time-info">STARTS IN .48'</span></td><td class="odd-cell" data-odd="2.00" data-match="Juventus vs Inter (Home)">2.00</td><td class="odd-cell" data-odd="3.00" data-match="Juventus vs Inter (Draw)">3.00</td><td class="odd-cell" data-odd="2.10" data-match="Juventus vs Inter (Away)">2.10</td></tr>
+                    </tbody>
+                </table>
+                
+                <h6>International Clubs /Club Friendly Games(5)</h6>
+                <table class="common-table">
+                    <thead>
+                        <tr>
+                            <th>Teams</th>
+                            <th>Home</th>
+                            <th>X</th>
+                            <th>Away</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Getafe CF <br>vs<br>Real Oviedo  <span class="time-info">STARTS IN .13'</span></td><td class="odd-cell" data-odd="1.50" data-match="Team A vs Team B (Home)">1.50</td><td class="odd-cell" data-odd="3.50" data-match="Team A vs Team B (Draw)">3.50</td><td class="odd-cell" data-odd="2.00" data-match="Team A vs Team B (Away)">2.00</td></tr>
+                        <tr><td>Louviere <br> Siege FC   <span class="time-info">STARTS IN .27'</span></td><td class="odd-cell" data-odd="1.60" data-match="Team C vs Team D (Home)">1.60</td><td class="odd-cell" data-odd="3.20" data-match="Team C vs Team D (Draw)">3.20</td><td class="odd-cell" data-odd="2.10" data-match="Team C vs Team D (Away)">2.10</td></tr>
+                        <tr><td>Lazio Rome <br> Vs <br>US  Avellino  <span class="time-info">STARTS IN .33'</span></td><td class="odd-cell" data-odd="1.90" data-match="Team E vs Team F (Home)">1.90</td><td class="odd-cell" data-odd="2.80" data-match="Team E vs Team F (Draw)">2.80</td><td class="odd-cell" data-odd="2.30" data-match="Team E vs Team F (Away)">2.30</td></tr>
+                        <tr><td>Fordi FC <br>Vs <br>Cesena Fc  <span class="time-info">STARTS IN .37'</span></td><td class="odd-cell" data-odd="2.20" data-match="Team G vs Team H (Home)">2.20</td><td class="odd-cell" data-odd="3.10" data-match="Team G vs Team H (Draw)">3.10</td><td class="odd-cell" data-odd="1.80" data-match="Team G vs Team H (Away)">1.80</td></tr>
+                        <tr><td>Santa Amalia <br>Vs <br>Cacereno FC   <span class="time-info">STARTS IN .39'</span></td><td class="odd-cell" data-odd="1.70" data-match="Team I vs Team J (Home)">1.70</td><td class="odd-cell" data-odd="3.40" data-match="Team I vs Team J (Draw)">3.40</td><td class="odd-cell" data-odd="2.05" data-match="Team I vs Team J (Away)">2.05</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+                                
+        <div id="aviator-page" class="page-section">
+            <div class="aviator-header">
+        <div class="left-section">
+            <i class="fas fa-arrow-left"></i>
+            <span class="title">Aviator</span>
+        </div>
+        <div class="balance-info">
+            <span id="aviatorBalanceDisplay">0.00</span> <!-- Added ID for balance display -->
+            <span>KES</span>
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="right-section">
+            <button>View Fullscreen</button>
+            <i class="fas fa-question-circle"></i>
+        </div>
+    </div>
+    
+    <div style="position: relative; width: 100%; max-width: 600px; margin: 10px auto; overflow: hidden; border-radius: 8px;">
+        <canvas id="gameCanvas" width="600" height="400"></canvas>
+        <div class="game-info" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+            <div id="multiplier-display" style="font-size: 3.5rem; font-weight: bold; color: #61dafb; text-shadow: 0 0 10px rgba(97, 218, 251, 0.5);">1.00x</div>
+            <div id="status-message" style="font-size: 1.2rem; color: #ccc; margin-top: 5px;"></div>
+        </div>
+    </div>
+
+    <div class="betting-controls-container">
+        <!-- First Betting Block -->
+        <div class="betting-block">
+            <div class="bet-auto-tabs">
+                <div class="bet-auto-tab active-tab">Bet</div>
+                <div class="bet-auto-tab">Auto</div>
+                <i class="fas fa-comment-dots" style="color: #e0e0e0; margin-left: auto; align-self: center; padding-right: 10px;"></i>
+            </div>
+            <div class="bet-input-group">
+                <button class="minus-btn" data-target-input="betAmountInput1">-</button>
+                <input type="number" id="betAmountInput1" value="10" step="10" min="10"> <!-- Added ID, step, min -->
+                <button class="plus-btn" data-target-input="betAmountInput1">+</button>
+            </div>
+            <div class="quick-bet-amounts">
+                <button data-amount="100" data-target-input="betAmountInput1">100</button>
+                <button data-amount="200" data-target-input="betAmountInput1">200</button>
+                <button data-amount="500" data-target-input="betAmountInput1">500</button>
+                <button data-amount="20000" data-target-input="betAmountInput1">20,000</button>
+            </div>
+            <button class="place-game-bet-button" id="placeBetButton1">Bet 10.00 KES</button>
+        </div>
+
+        <!-- Second Betting Block -->
+        <div class="betting-block">
+            <div class="bet-auto-tabs">
+                <div class="bet-auto-tab active-tab">Bet</div>
+                <div class="bet-auto-tab">Auto</div>
+                <i class="fas fa-comment-dots" style="color: #e0e0e0; margin-left: auto; align-self: center; padding-right: 10px;"></i>
+            </div>
+            <div class="bet-input-group">
+                <button class="minus-btn" data-target-input="betAmountInput2">-</button>
+                <input type="number" id="betAmountInput2" value="10" step="10" min="10"> <!-- Added ID, step, min -->
+                <button class="plus-btn" data-target-input="betAmountInput2">+</button>
+            </div>
+            <div class="quick-bet-amounts">
+                <button data-amount="100" data-target-input="betAmountInput2">100</button>
+                <button data-amount="200" data-target-input="betAmountInput2">200</button>
+                <button data-amount="500" data-target-input="betAmountInput2">500</button>
+                <button data-amount="20000" data-target-input="betAmountInput2">1,000</button>
+            </div>
+            <button class="place-game-bet-button" id="placeBetButton2">Bet 10.00 KES</button>
+        </div>
+    </div>
+
+            <div class="bets-history-section">
+                <div class="history-tabs">
+                    <div class="history-tab active-tabU">ALL BETS</div>
+                    <div class="history-tab">Stake amount </div>
+                    <div class="history-tab">X</div>
+                    <div class="history-tab">Cashout</div>
+                </div>
+                <div class="scrolling-wrapper">
+                    <div class="scrolling-bets-content" id="bets-scroll">
+                        <table class="bets-table">
+                            <thead>
+                                <tr>
+                                    <th>Player</th>
+                                    <th>Bet KES</th>
+                                    <th>X</th>
+                                    <th>Win KES</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bets-table-body">
+                                <tr><td>User***0</td><td>20,000.0</td><td>1.39</td><td>27,800.0</td></tr>
+                                <tr><td>Player***1</td><td>500.00</td><td>2.10</td><td>1,050.00</td></tr>
+                                <tr><td>Gr***j</td><td>100.00</td><td>19.05</td><td>19,500.0</td></tr>
+                                 <tr><td>D***s</td><td>1000.00</td><td>4.05</td><td>4,500.0</td></tr>
+                                <tr><td>H***S</td><td>250.00</td><td>5.05</td><td>1,500.0</td></tr>
+                                 <tr><td>J***A</td><td>100.00</td><td>2.05</td><td>200.00</td></tr>
+                                  <tr><td>I***G</td><td>100.00</td><td>5.05</td><td>500.0</td></tr>
+                                 <tr><td>Duo***3</td><td>1,000.00</td><td>3.50</td><td>3,500.00</td></tr>
+                                  <tr><td>Pi***3</td><td>1,000.00</td><td>5.30</td><td>53,500.0</td></tr>
+                                   <tr><td>My***3</td><td>1,000.00</td><td>19.20</td><td>19,200.0</td></tr>
+                                    <tr><td>Wr***3</td><td>1,000.00</td><td>3.50</td><td>35,400.0</td></tr>
+                                     <tr><td>K***N</td><td>1,000.00</td><td>67.40</td><td>3,500.00</td></tr>
+                                <tr><td>Alpha***4</td><td>250.00</td><td>4.53</td><td>45,000.0</td></tr>
+                                <tr><td>Beta***5</td><td>75.00</td><td>133.5</td><td>10,000.0</td></tr>
+                                <tr><td>Gamma***6</td><td>5,000.00</td><td>50.00</td><td>50,000.0</td></tr>
+                                <tr><td>Delta***7</td><td>150.00</td><td>248.0</td><td>37,300.0</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+         <div id="person-page" class="page-section">
+            <div class="profile-info">
+                <!-- Display Username here -->
+           <h2>Hi  <span id="displayUsername"></span>👋  </h2>  
+                    
+            <p>Welcome to your personal dashboard.</p>
+        <p>Try depositing manually via M-PESA:</p>
+        <p>
+            Paybill: <span id="paybillNumber">542542</span> 
+            <button class="copy-btn" data-target="paybillNumber">Copy Paybill</button>
+        </p>
+        <p>
+            Account Number: <span id="accountNumber">03207346616150</span> 
+            <button class="copy-btn" data-target="accountNumber">Copy Account No.</button>
+        </p>
+
+               
+
+                <!-- Display Phone Number and Email here -->
+                <p>Your Phone: <span id="displayPhoneNumber"></span></p> 
+                <p>Your Email: <span id="displayEmail"></span></p>
+                
+                <!-- Your Deposit Grid Container -->
+                <div class="deposit-grid-container">
+                    <button class="deposit-amount-btn" data-amount="50">50</button>
+                    <button class="deposit-amount-btn" data-amount="100">100</button>
+                    <button class="deposit-amount-btn" data-amount="200">200</button>
+                    <button class="deposit-amount-btn" data-amount="300">300</button>
+                    <button class="deposit-amount-btn" data-amount="400">400</button>
+                    <button class="deposit-amount-btn" data-amount="500">500</button>
+                    <button class="deposit-amount-btn" data-amount="600">600</button>
+                    <button class="deposit-amount-btn" data-amount="700">700</button>
+                    <button class="deposit-amount-btn" data-amount="800">800</button>
+                    <button class="deposit-amount-btn" data-amount="900">900</button>
+                    <button class="deposit-amount-btn" data-amount="1000">1000</button>
+                
+                    <div class="custom-deposit">
+                        <label for="custom-amount">Enter amount you want to deposit</label>
+                        <input type="number" id="custom-amount" placeholder="e.g 150">
+                    </div>
+                    <button id="proceed-deposit-btn">Deposit</button>
+                </div>
+
+                <!-- Input fields for displaying/editing (currently readonly) -->
+                <label for="usernameInput">Username:</label>
+                <input type="text" id="usernameInput" value="" readonly>
+                
+                <label for="emailInput">Email:</label>
+                <input type="email" id="emailInput" value="" readonly>
+                
+                <label for="phoneNumberInput">Phone Number:</label>
+                <input type="tel" id="phoneNumberInput" value="" readonly>
+
+                <button>STK PUSH</button>
+            </div>
+        </div>
+    
+    </main>
+
+    <div id="bet-slip-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-bet-slip">&times;</span>
+            <h2>Betting Slip</h2>
+            <ul id="selected-bets-list">
+                </ul>
+            <div class="bet-summary">
+                <p>Total Odds: <span id="total-odds">1.00</span></p>
+                <div class="stake-input-group">
+                    <label for="stake-amount">Stake Amount:</label>
+                    <input type="number" id="stake-amount" value="100" min="1">
+                </div>
+                <p>Potential Payout: <span id="potential-payout">0.00</span></p>
+            </div>
+            <button id="place-bet-button">Place Bet</button>
+        </div>
+    </div>
+    
+    
+    <script src="person_page_script.js"></script>
+    <script src="aviator.js"></script>
+
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js"></script>
+    <script src="script.js" defer></script>
+    <script src="logout.js" defer></script>
+    <footer>
+        <p>© 2023 <i class="bi bi-xbox"></i> bet. All rights reserved.</p>
+    </footer>
+</body>
+</html>

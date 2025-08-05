@@ -1,0 +1,171 @@
+
+.register-container {
+    /* Retaining your gradient background */
+    background-image: linear-gradient(to bottom, #1e163f, #026607);
+    padding: 30px; /* Increased padding for better spacing */
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Enhanced shadow */
+    width: 100%; /* Take full width on smaller screens */
+    max-width: 400px; /* Max width for desktop/larger screens */
+    box-sizing: border-box; /* Include padding in the element's total width and height */
+    margin: 20px; /* Add margin for spacing on smaller screens, overrides your '100px auto' */
+    color: #f3efef; /* Text color within container */
+}
+
+h2 { /* Targeting h2 directly, as it's within .register-container */
+    text-align: center;
+    margin-bottom: 25px; /* Slightly more margin */
+    color: #eee7e7; /* Your chosen color for h2 */
+    font-size: 1.8em; /* Larger font size for heading */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3); /* Subtle text shadow for depth */
+}
+
+.register-container form { /* Your form styling */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Changed .form-group to .input-group for consistency with HTML and previous immersive */
+.input-group {
+    margin-bottom: 20px; /* Consistent margin between input groups */
+    color: #f0eded; /* Label color */
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px; /* More space between label and input */
+    color: #ccc; /* Lighter color for labels */
+    font-size: 0.95em; /* Slightly smaller font for labels */
+}
+
+.input-group input[type="text"],
+.input-group input[type="email"],
+.input-group input[type="tel"],
+.input-group input[type="password"] {
+    width: 100%;
+    padding: 12px; /* Increased padding for inputs */
+    border-radius: 8px; /* More rounded input fields */
+    border: 1px solid #444; /* Darker border for inputs */
+    background-color: #333; /* Dark background for input fields */
+    color: #f0eded; /* Light text color for input content */
+    font-size: 1em; /* Standard font size for input text */
+    box-sizing: border-box; /* Ensure padding doesn't add to width */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition on focus */
+}
+
+.input-group input:focus {
+    border-color: #02972f; /* Bangbet green border on focus */
+    box-shadow: 0 0 8px rgba(2, 151, 47, 0.5); /* Green glow on focus */
+    outline: none; /* Remove default outline */
+}
+
+.input-group small { /* Style for the small hint text below phone number/password */
+    display: block;
+    color: #888; /* Muted color for hint text */
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+.terms-checkbox { /* Styling for the checkbox group */
+    margin-bottom: 25px;
+    display: flex; /* Use flexbox to align checkbox and label */
+    align-items: center; /* Vertically center checkbox and label */
+}
+
+.terms-checkbox input[type="checkbox"] {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    accent-color: #02972f; /* Sets the color of the checkbox itself */
+}
+
+.terms-checkbox label {
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+.terms-checkbox a {
+    color: #02972f; /* Bangbet green for terms link */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.terms-checkbox a:hover {
+    color: #03c03b; /* Lighter green on hover */
+    text-decoration: underline;
+}
+
+.register-button {
+    width: 100%;
+    padding: 15px; /* Larger padding for button */
+    background-color: #28a745; /* Your chosen button color */
+    color: white;
+    border: none;
+    border-radius: 8px; /* More rounded button */
+    font-size: 1.1em; /* Larger font size for button text */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover and active effects */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+}
+
+.register-button:hover {
+    background-color: #218838; /* Darker green on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.register-button:active {
+    transform: translateY(0); /* Return to original position on click */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Smaller shadow on click */
+}
+
+.error-message { /* Style for the error message displayed by JavaScript */
+    color: #ff4d4d; /* Red color for errors */
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9em;
+    display: none; /* Hidden by default, JavaScript will show it */
+}
+
+/* Renamed .register-link to .login-link for clarity and added .home-link */
+.login-link, .home-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+.login-link a, .home-link a {
+    color: #007bff; /* Blue for links */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-link a:hover, .home-link a:hover {
+    color: #0056b3; /* Darker blue on hover */
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+    .register-container {
+        padding: 20px;
+        margin: 10px; /* Reduce margin on small screens */
+        border-radius: 10px; /* Slightly less rounded */
+    }
+
+    h2 {
+        font-size: 1.5em; /* Smaller heading on small screens */
+        margin-bottom: 20px;
+    }
+
+    .input-group input {
+        padding: 10px; /* Smaller input padding */
+        font-size: 0.9em; /* Smaller input font */
+    }
+
+    .register-button {
+        padding: 12px; /* Smaller button padding */
+        font-size: 1em; /* Smaller button font */
+    }
+}

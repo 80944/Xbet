@@ -1,0 +1,174 @@
+
+body {
+    background-color: #272525;
+    font-family: Arial, sans-serif;
+}
+.login-container {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    background-image: linear-gradient(to bottom, #1e163f, #026607);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    color: #000;
+}
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #eee7e7;
+}
+.form-group {
+    margin-bottom: 15px;
+    color: #7a7777;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #eeecec;
+}
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #646363;
+}
+button { /* This will affect ALL buttons, including logout */
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #218838;
+}
+.register-link {
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+/* Website Name Styling (for header or title) */
+
+
+/* login.css */
+
+.website-name {
+    color: white; /* This will make the entire h1 and its direct text white */
+    /* You might want to add other styling like font-size, text-shadow, etc. */
+    font-size: 3em; /* Example: Adjust font size */
+    text-align: center; /* Example: Center the text */
+    margin-bottom: 20px; /* Example: Add some space below */
+}
+
+/* If you want specific parts to be different colors, you can target them */
+/* For example, if you wanted the 'Bet' letters to be a slightly different shade, you could do: */
+.website-name .letter-b,
+.website-name .letter-e,
+.website-name .letter-t {
+    color: white; /* Explicitly ensure they are white */
+    /* You could change this to something like #f0f0f0 if you wanted an off-white */
+}
+
+/* To ensure the Bootstrap icon is also white */
+.website-name .bi-xbox {
+    color: white;
+    margin-right: 10px; /* Space between icon and text */
+}
+
+/* You might also want to set a background for the container or body */
+body {
+    background-color: #333; /* Example dark background to make white text visible */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.login-container {
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background for the form */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    color: white; /* Ensure other text in the container is also white */
+}
+
+/* Adjusting the H1 directly inside login-container if needed */
+.login-container h1 {
+    color: white; /* Ensures "Welcome to" is also white */
+    text-align: center;
+}
+
+.login-container h2 {
+    color: rgb(116, 114, 114); /* Ensures "Login" is also white */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+
+/* Login Page Styles */
+.login-container {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    background-image: linear-gradient(to bottom, #1e163f, #026607);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    color: #000;
+}
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #eee7e7;
+}
+.form-group {
+    margin-bottom: 15px;
+    color: #f0eded;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #eeecec;
+}
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+button { /* This will affect ALL buttons, including logout */
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #218838;
+}
+.register-link {
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Website Name Styling (for header or title) */
+.website-name {
+    font-family: 'Arial Black', sans-serif;
+    font-size: 3em;
+    text-align: center;
+    margin-top: 50px;
+    letter-spacing: -2px;
+}
+
+/* Example 2: Different Fonts for Specific Letters (Use with caution for readability) */
+/* .letter-g {
+    font-family: 'Georgia', serif;
+    font-size: 1.1em;
+} */
