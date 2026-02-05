@@ -6,6 +6,7 @@
     <title>X bet</title>
     
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="matches.css">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 
@@ -64,43 +65,16 @@
             <p>Welcome to <i class="bi bi-xbox"></i>bet! Explore our offerings.</p>
             <h4>soccer</h4>
             <div class="main-content-container">
-                <h6>International Clubs /Club Friendly Games(6)</h6>
-                <table class="common-table">
-                    <thead>
-                        <tr>
-                            <th>Teams</th>
-                            <th>Home</th>
-                            <th>X</th>
-                            <th>Away</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>RAAL Louviere<br>vs Standard Liege  <span class="time-info">STARTS IN .24'</span> </td><td class="odd-cell" data-odd="1.50" data-match="Man Utd vs Sevilla (Home)">1.50</td><td class="odd-cell" data-odd="3.50" data-match="Man Utd vs Sevilla (Draw)">3.50</td><td class="odd-cell" data-odd="2.00" data-match="Man Utd vs Sevilla (Away)">2.00</td></tr>
-                        <tr><td>Burgos CF<br>vs<br>Barakaldo CF  <span class="time-info">STARTS IN .33'</span></td><td class="odd-cell" data-odd="1.80" data-match="Real Madrid vs PSG (Home)">1.80</td><td class="odd-cell" data-odd="3.00" data-match="Real Madrid vs PSG (Draw)">3.00</td><td class="odd-cell" data-odd="2.50" data-match="Real Madrid vs PSG (Away)">2.50</td></tr>
-                        <tr><td>AI Sadd SC<br>vs<br>Sporting Gijon  <span class="time-info">STARTS IN .30'</span></td><td class="odd-cell" data-odd="2.10" data-match="Barcelona vs Bayern (Home)">2.10</td><td class="odd-cell" data-odd="3.10" data-match="Barcelona vs Bayern (Draw)">3.10</td><td class="odd-cell" data-odd="1.90" data-match="Barcelona vs Bayern (Away)">1.90</td></tr>
-                        <tr><td>Levante UD<br>vs<br>Neom SC <span class="time-info">STARTS IN .45'</span></td><td class="odd-cell" data-odd="1.75" data-match="Liverpool vs Dortmund (Home)">1.75</td><td class="odd-cell" data-odd="3.30" data-match="Liverpool vs Dortmund (Draw)">3.30</td><td class="odd-cell" data-odd="2.20" data-match="Liverpool vs Dortmund (Away)">2.20</td></tr>
-                        <tr><td>Cadiz CF<br>vs<br>Granada CF   <span class="time-info">STARTS IN .48'</span></td><td class="odd-cell" data-odd="2.00" data-match="Juventus vs Inter (Home)">2.00</td><td class="odd-cell" data-odd="3.00" data-match="Juventus vs Inter (Draw)">3.00</td><td class="odd-cell" data-odd="2.10" data-match="Juventus vs Inter (Away)">2.10</td></tr>
-                    </tbody>
-                </table>
-                
-                <h6>International Clubs /Club Friendly Games(5)</h6>
-                <table class="common-table">
-                    <thead>
-                        <tr>
-                            <th>Teams</th>
-                            <th>Home</th>
-                            <th>X</th>
-                            <th>Away</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Getafe CF <br>vs<br>Real Oviedo  <span class="time-info">STARTS IN .13'</span></td><td class="odd-cell" data-odd="1.50" data-match="Team A vs Team B (Home)">1.50</td><td class="odd-cell" data-odd="3.50" data-match="Team A vs Team B (Draw)">3.50</td><td class="odd-cell" data-odd="2.00" data-match="Team A vs Team B (Away)">2.00</td></tr>
-                        <tr><td>Louviere <br> Siege FC   <span class="time-info">STARTS IN .27'</span></td><td class="odd-cell" data-odd="1.60" data-match="Team C vs Team D (Home)">1.60</td><td class="odd-cell" data-odd="3.20" data-match="Team C vs Team D (Draw)">3.20</td><td class="odd-cell" data-odd="2.10" data-match="Team C vs Team D (Away)">2.10</td></tr>
-                        <tr><td>Lazio Rome <br> Vs <br>US  Avellino  <span class="time-info">STARTS IN .33'</span></td><td class="odd-cell" data-odd="1.90" data-match="Team E vs Team F (Home)">1.90</td><td class="odd-cell" data-odd="2.80" data-match="Team E vs Team F (Draw)">2.80</td><td class="odd-cell" data-odd="2.30" data-match="Team E vs Team F (Away)">2.30</td></tr>
-                        <tr><td>Fordi FC <br>Vs <br>Cesena Fc  <span class="time-info">STARTS IN .37'</span></td><td class="odd-cell" data-odd="2.20" data-match="Team G vs Team H (Home)">2.20</td><td class="odd-cell" data-odd="3.10" data-match="Team G vs Team H (Draw)">3.10</td><td class="odd-cell" data-odd="1.80" data-match="Team G vs Team H (Away)">1.80</td></tr>
-                        <tr><td>Santa Amalia <br>Vs <br>Cacereno FC   <span class="time-info">STARTS IN .39'</span></td><td class="odd-cell" data-odd="1.70" data-match="Team I vs Team J (Home)">1.70</td><td class="odd-cell" data-odd="3.40" data-match="Team I vs Team J (Draw)">3.40</td><td class="odd-cell" data-odd="2.05" data-match="Team I vs Team J (Away)">2.05</td></tr>
-                    </tbody>
-                </table>
+                <!-- Loader (shown while fetching) -->
+                <div class="pageloader" id="page-loader" style="display:none">
+                    <img src="/img/preloader.png" alt="Loading">
+                </div>
+
+                <!-- Matches will be inserted here grouped by league -->
+                <div id="matches-container"></div>
+                <div id="load-more-wrapper" style="text-align:center; margin-top:12px; display:none">
+                    <button id="load-more-btn" class="load-more-btn">Load more</button>
+                </div>
             </div>
         </div>
                                 
@@ -296,9 +270,7 @@
     
     <script src="person_page_script.js"></script>
     <script src="aviator.js"></script>
-
-
-
+    <script src="api-integration.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"></script>
