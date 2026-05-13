@@ -1,126 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X Bet - Register</title>
-    <link rel="stylesheet" href="register_style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-</head>
-<body>
+const { getStore } = require('@netlify/blobs');
+const crypto = require('crypto');
 
-    <div class="register-container">
-        <h1>Welcome to </h1>
-        <h1 class="website-name">
-            <i class="bi bi-xbox"></i> 
-            <span class="letter-b">B</span><span class="letter-e">e</span><span class="letter-t">t</span>
-        </h1>
-       
-        <h2>Register</h2>
+exports.handler = async (event) => {
+    // Only allow POST requests
+    if (event.httpMethod !== 'POST') {
+        return {
+            statusCode: 405,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ success: false, message: 'Method not allowed' })
+        };
+    }
 
-        <form id="registerForm">
-            <div class="input-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" placeholder="username" required>
-            </div>
+    try {
+        const { username, email, phoneNumber, password } = JSON.parse(event.body);
 
-            <div class="input-group">
-                <label for="phoneNumber">Phone Number:</label> 
-                <div class="phone-input-wrapper">
-                    <span class="country-code">+254</span>
-                    <input type="tel" id="phoneNumber" name="phoneNumberDigits" placeholder="Enter phone number e.g 7....." pattern="^[0-9]{9}$" required autocomplete="tel">
-                </div>
-            </div>
+        // Validate required fields
+        if (!username || !email || !password) {
+            return {
+                statusCode: 400,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ success: false, message: 'Missing required fields' })
+            };
+        }
 
-            <div class="input-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Enter Email" required>
-            </div>
-
-            <div class="input-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="Enter strong password" minlength="8" required>
-                <small>Password must be at least 8 characters long.</small>
-            </div>
-
-            <div class="input-group">
-                <label for="confirmPassword">Confirm Password:</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Rewrite your password" required>
-            </div>
-
-            <div class="terms-checkbox">
-                <input type="checkbox" id="terms" name="terms" required>
-                <label for="terms">I agree to the <a href="#" target="_blank">Terms and Conditions</a></label>
-            </div>
-
-            <button type="submit" class="register-button">Register</button>
-            <p id="register-error-message" class="error-message"></p>
-        </form>
-
-        <p class="login-link">Already have an account? <a href="login.html">Login here</a></p>
-        <p class="home-link"><a href="index.html">Back to Home</a></p>
-    </div>
-
-    <script>
-        // Register handler
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const phoneDigits = document.getElementById('phoneNumber').value;
-            const phoneNumber = `+254${phoneDigits}`;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const terms = document.getElementById('terms').checked;
-            const messageDiv = document.getElementById('register-error-message');
-            
-            // Validation
-            if (password !== confirmPassword) {
-                messageDiv.textContent = 'Passwords do not match!';
-                messageDiv.style.color = 'red';
-                return;
-            }
-            
-            if (!terms) {
-                messageDiv.textContent = 'You must agree to the Terms and Conditions';
-                messageDiv.style.color = 'red';
-                return;
-            }
-            
-            try {
-                const response = await fetch('/.netlify/functions/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        username: username,
-                        email: email,
-                        phoneNumber: phoneNumber,
-                        password: password
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    messageDiv.textContent = 'Registration successful! Please login.';
-                    messageDiv.style.color = 'green';
-                    // Redirect to login page after 2 seconds
-                    setTimeout(() => {
-                        window.location.href = '/login.html';
-                    }, 2000);
-                } else {
-                    messageDiv.textContent = data.message || 'Registration failed. Please try again.';
-                    messageDiv.style.color = 'red';
-                }
-            } catch (error) {
-                console.error('Registration error:', error);
-                messageDiv.textContent = 'An error occurred. Please try again.';
-                messageDiv.style.color = 'red';
-            }
+        // Netlify automatically provides SITE_ID - no manual entry needed!
+        const store = getStore({
+            name: 'users',
+            siteID: process.env.SITE_ID
         });
-    </script>
-</body>
-</html>
+
+        // Check if user already exists
+        const existingUser = await store.get(email);
+        if (existingUser) {
+            return {
+                statusCode: 400,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ success: false, message: 'User already exists' })
+            };
+        }
+
+        // Hash the password
+        const salt = crypto.randomBytes(16).toString('hex');
+        const hash = crypto.scryptSync(password, salt, 64).toString('hex');
+        const passwordHash = `${salt}:${hash}`;
+        
+        // Store user data
+        await store.set(email, {
+            username,
+            email,
+            phoneNumber: phoneNumber || '',
+            passwordHash,
+            createdAt: new Date().toISOString()
+        });
+
+        console.log('✅ User registered:', email);
+
+        return {
+            statusCode: 200,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                success: true, 
+                message: 'Registration successful!' 
+            })
+        };
+
+    } catch (error) {
+        console.error('❌ Registration error:', error);
+        return {
+            statusCode: 500,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                success: false, 
+                message: error.message 
+            })
+        };
+    }
+};

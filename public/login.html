@@ -1,87 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bangbet-login</title>
-    <link rel="stylesheet" href="login.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-</head>
-<body>
+const { getStore } = require('@netlify/blobs');
+const crypto = require('crypto');
 
-    <div class="login-container">
-        <h1>Welcome to </h1>
+exports.handler = async (event) => {
+    // Only allow POST requests
+    if (event.httpMethod !== 'POST') {
+        return {
+            statusCode: 405,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ success: false, message: 'Method not allowed' })
+        };
+    }
 
-        <h1 class="website-name">
-            <i class="bi bi-xbox"></i>
-            <span class="letter-b">B</span><span class="letter-e">e</span><span class="letter-t">t</span>
-        </h1>
-        <h2>Login</h2>
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="username">Username/Email:</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Login</button>
-            <p id="message" class="error-message"></p>
-        </form>
-        <p class="register-link">Don't have an account? <a href="register.html">Register here</a></p>
-    </div>
+    try {
+        const { email, password } = JSON.parse(event.body);
 
-    <script>
-        // Login handler
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const messageDiv = document.getElementById('message');
-            
-            // Check if username is actually an email (can be either)
-            const email = username.includes('@') ? username : `${username}@xbet.user`; // Convert username to email format if needed
-            
-            try {
-                const response = await fetch('/.netlify/functions/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ 
-                        email: email, 
-                        password: password,
-                        username: username  // Also send original username
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    // Save login state
-                    localStorage.setItem('isLoggedIn', 'true');
-                    localStorage.setItem('userEmail', email);
-                    localStorage.setItem('username', username);
-                    
-                    // Redirect to dashboard
-                    window.location.href = '/index.html';
-                } else {
-                    messageDiv.textContent = data.message || 'Login failed. Please check your credentials.';
-                    messageDiv.style.color = 'red';
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                messageDiv.textContent = 'An error occurred. Please try again.';
-                messageDiv.style.color = 'red';
-            }
-        });
-        
-        // If already logged in, redirect to dashboard
-        if (localStorage.getItem('isLoggedIn') === 'true') {
-            window.location.href = '/index.html';
+        // Validate required fields
+        if (!email || !password) {
+            return {
+                statusCode: 400,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ success: false, message: 'Email and password required' })
+            };
         }
-    </script>
-</body>
-</html>
+
+        // Netlify automatically provides SITE_ID - no manual entry needed!
+        const store = getStore({
+            name: 'users',
+            siteID: process.env.SITE_ID
+        });
+
+        // Find user by email
+        const user = await store.get(email);
+        
+        if (!user) {
+            return {
+                statusCode: 401,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ success: false, message: 'Invalid email or password' })
+            };
+        }
+
+        // Verify password
+        const [salt, storedHash] = user.passwordHash.split(':');
+        const hash = crypto.scryptSync(password, salt, 64).toString('hex');
+
+        if (hash === storedHash) {
+            // Don't send password hash back to client
+            const { passwordHash, ...userWithoutPassword } = user;
+            
+            return {
+                statusCode: 200,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    success: true,
+                    message: 'Login successful!',
+                    user: userWithoutPassword
+                })
+            };
+        } else {
+            return {
+                statusCode: 401,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ success: false, message: 'Invalid email or password' })
+            };
+        }
+
+    } catch (error) {
+        console.error('❌ Login error:', error);
+        return {
+            statusCode: 500,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                success: false, 
+                message: error.message 
+            })
+        };
+    }
+};
