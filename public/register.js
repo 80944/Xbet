@@ -67,12 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
             password: password // Send password to the server for hashing and storage
         };
 
-        // --- Send Data to Server using Fetch API (via Ngrok) ---
+        // --- Send Data to Server using Fetch API ---
         try {
-            // Updated Ngrok URL as requested. Ensured no trailing spaces.
-            const serverUrl = 'https://b7e526d99d41.ngrok-free.app'; 
-            
-            const response = await fetch(`${serverUrl}/register`, { 
+            const response = await fetch('/register', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // Indicate that we're sending JSON
