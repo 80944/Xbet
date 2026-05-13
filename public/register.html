@@ -1,78 +1,564 @@
-const { getStore } = require('@netlify/blobs');
-const crypto = require('crypto');
-
-exports.handler = async (event) => {
-    // Only allow POST requests
-    if (event.httpMethod !== 'POST') {
-        return {
-            statusCode: 405,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ success: false, message: 'Method not allowed' })
-        };
-    }
-
-    try {
-        const { username, email, phoneNumber, password } = JSON.parse(event.body);
-
-        // Validate required fields
-        if (!username || !email || !password) {
-            return {
-                statusCode: 400,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ success: false, message: 'Missing required fields' })
-            };
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X Bet - Register</title>
+    <link rel="stylesheet" href="register_style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+        /* Additional styles for better UX */
+        .country-code-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
         }
-
-        // Netlify automatically provides SITE_ID - no manual entry needed!
-        const store = getStore({
-            name: 'users',
-            siteID: process.env.SITE_ID
-        });
-
-        // Check if user already exists
-        const existingUser = await store.get(email);
-        if (existingUser) {
-            return {
-                statusCode: 400,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ success: false, message: 'User already exists' })
-            };
+        .country-code-group select {
+            width: 160px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
         }
+        .country-code-group select:hover {
+            border-color: #667eea;
+        }
+        .country-code-group input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .country-code-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .help-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        select option {
+            padding: 5px;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .success-message {
+            color: green;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .password-strength {
+            height: 5px;
+            margin-top: 5px;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        .strength-weak { width: 33%; background: #ff4444; }
+        .strength-medium { width: 66%; background: #ffaa44; }
+        .strength-strong { width: 100%; background: #00c851; }
+    </style>
+</head>
+<body>
 
-        // Hash the password
-        const salt = crypto.randomBytes(16).toString('hex');
-        const hash = crypto.scryptSync(password, salt, 64).toString('hex');
-        const passwordHash = `${salt}:${hash}`;
+    <div class="register-container">
+        <h1>Welcome to</h1>
+        <h1 class="website-name">
+            <i class="bi bi-xbox"></i> 
+            <span class="letter-b">B</span><span class="letter-e">e</span><span class="letter-t">t</span>
+        </h1>
+       
+        <h2>Create Account</h2>
+
+        <form id="registerForm">
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter username (min 3 characters)" required>
+                <small id="usernameHelp" class="help-text"></small>
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required autocomplete="email">
+                <small id="emailHelp" class="help-text"></small>
+            </div>
+
+            <!-- Country Code Selector with Phone Number -->
+            <div class="input-group">
+                <label>Phone Number (Optional):</label>
+                <div class="country-code-group">
+                    <select id="countryCode" name="countryCode">
+                        <option value="+93">🇦🇫 +93 (Afghanistan)</option>
+                        <option value="+355">🇦🇱 +355 (Albania)</option>
+                        <option value="+213">🇩🇿 +213 (Algeria)</option>
+                        <option value="+376">🇦🇩 +376 (Andorra)</option>
+                        <option value="+244">🇦🇴 +244 (Angola)</option>
+                        <option value="+54">🇦🇷 +54 (Argentina)</option>
+                        <option value="+374">🇦🇲 +374 (Armenia)</option>
+                        <option value="+61">🇦🇺 +61 (Australia)</option>
+                        <option value="+43">🇦🇹 +43 (Austria)</option>
+                        <option value="+994">🇦🇿 +994 (Azerbaijan)</option>
+                        <option value="+973">🇧🇭 +973 (Bahrain)</option>
+                        <option value="+880">🇧🇩 +880 (Bangladesh)</option>
+                        <option value="+375">🇧🇾 +375 (Belarus)</option>
+                        <option value="+32">🇧🇪 +32 (Belgium)</option>
+                        <option value="+501">🇧🇿 +501 (Belize)</option>
+                        <option value="+229">🇧🇯 +229 (Benin)</option>
+                        <option value="+975">🇧🇹 +975 (Bhutan)</option>
+                        <option value="+591">🇧🇴 +591 (Bolivia)</option>
+                        <option value="+387">🇧🇦 +387 (Bosnia)</option>
+                        <option value="+267">🇧🇼 +267 (Botswana)</option>
+                        <option value="+55">🇧🇷 +55 (Brazil)</option>
+                        <option value="+673">🇧🇳 +673 (Brunei)</option>
+                        <option value="+359">🇧🇬 +359 (Bulgaria)</option>
+                        <option value="+226">🇧🇫 +226 (Burkina Faso)</option>
+                        <option value="+257">🇧🇮 +257 (Burundi)</option>
+                        <option value="+855">🇰🇭 +855 (Cambodia)</option>
+                        <option value="+237">🇨🇲 +237 (Cameroon)</option>
+                        <option value="+1">🇨🇦 +1 (Canada)</option>
+                        <option value="+238">🇨🇻 +238 (Cape Verde)</option>
+                        <option value="+236">🇨🇫 +236 (Central African Republic)</option>
+                        <option value="+235">🇹🇩 +235 (Chad)</option>
+                        <option value="+56">🇨🇱 +56 (Chile)</option>
+                        <option value="+86">🇨🇳 +86 (China)</option>
+                        <option value="+57">🇨🇴 +57 (Colombia)</option>
+                        <option value="+269">🇰🇲 +269 (Comoros)</option>
+                        <option value="+242">🇨🇬 +242 (Congo)</option>
+                        <option value="+506">🇨🇷 +506 (Costa Rica)</option>
+                        <option value="+385">🇭🇷 +385 (Croatia)</option>
+                        <option value="+53">🇨🇺 +53 (Cuba)</option>
+                        <option value="+357">🇨🇾 +357 (Cyprus)</option>
+                        <option value="+420">🇨🇿 +420 (Czech Republic)</option>
+                        <option value="+45">🇩🇰 +45 (Denmark)</option>
+                        <option value="+253">🇩🇯 +253 (Djibouti)</option>
+                        <option value="+1">🇩🇲 +1 (Dominica)</option>
+                        <option value="+1">🇩🇴 +1 (Dominican Republic)</option>
+                        <option value="+593">🇪🇨 +593 (Ecuador)</option>
+                        <option value="+20">🇪🇬 +20 (Egypt)</option>
+                        <option value="+503">🇸🇻 +503 (El Salvador)</option>
+                        <option value="+240">🇬🇶 +240 (Equatorial Guinea)</option>
+                        <option value="+291">🇪🇷 +291 (Eritrea)</option>
+                        <option value="+372">🇪🇪 +372 (Estonia)</option>
+                        <option value="+251">🇪🇹 +251 (Ethiopia)</option>
+                        <option value="+679">🇫🇯 +679 (Fiji)</option>
+                        <option value="+358">🇫🇮 +358 (Finland)</option>
+                        <option value="+33">🇫🇷 +33 (France)</option>
+                        <option value="+241">🇬🇦 +241 (Gabon)</option>
+                        <option value="+220">🇬🇲 +220 (Gambia)</option>
+                        <option value="+995">🇬🇪 +995 (Georgia)</option>
+                        <option value="+49">🇩🇪 +49 (Germany)</option>
+                        <option value="+233">🇬🇭 +233 (Ghana)</option>
+                        <option value="+30">🇬🇷 +30 (Greece)</option>
+                        <option value="+502">🇬🇹 +502 (Guatemala)</option>
+                        <option value="+224">🇬🇳 +224 (Guinea)</option>
+                        <option value="+245">🇬🇼 +245 (Guinea-Bissau)</option>
+                        <option value="+592">🇬🇾 +592 (Guyana)</option>
+                        <option value="+509">🇭🇹 +509 (Haiti)</option>
+                        <option value="+504">🇭🇳 +504 (Honduras)</option>
+                        <option value="+36">🇭🇺 +36 (Hungary)</option>
+                        <option value="+354">🇮🇸 +354 (Iceland)</option>
+                        <option value="+91">🇮🇳 +91 (India)</option>
+                        <option value="+62">🇮🇩 +62 (Indonesia)</option>
+                        <option value="+98">🇮🇷 +98 (Iran)</option>
+                        <option value="+964">🇮🇶 +964 (Iraq)</option>
+                        <option value="+353">🇮🇪 +353 (Ireland)</option>
+                        <option value="+972">🇮🇱 +972 (Israel)</option>
+                        <option value="+39">🇮🇹 +39 (Italy)</option>
+                        <option value="+225">🇨🇮 +225 (Ivory Coast)</option>
+                        <option value="+1">🇯🇲 +1 (Jamaica)</option>
+                        <option value="+81">🇯🇵 +81 (Japan)</option>
+                        <option value="+962">🇯🇴 +962 (Jordan)</option>
+                        <option value="+7">🇰🇿 +7 (Kazakhstan)</option>
+                        <option value="+254" selected>🇰🇪 +254 (Kenya)</option>
+                        <option value="+686">🇰🇮 +686 (Kiribati)</option>
+                        <option value="+383">🇽🇰 +383 (Kosovo)</option>
+                        <option value="+965">🇰🇼 +965 (Kuwait)</option>
+                        <option value="+996">🇰🇬 +996 (Kyrgyzstan)</option>
+                        <option value="+856">🇱🇦 +856 (Laos)</option>
+                        <option value="+371">🇱🇻 +371 (Latvia)</option>
+                        <option value="+961">🇱🇧 +961 (Lebanon)</option>
+                        <option value="+266">🇱🇸 +266 (Lesotho)</option>
+                        <option value="+231">🇱🇷 +231 (Liberia)</option>
+                        <option value="+218">🇱🇾 +218 (Libya)</option>
+                        <option value="+423">🇱🇮 +423 (Liechtenstein)</option>
+                        <option value="+370">🇱🇹 +370 (Lithuania)</option>
+                        <option value="+352">🇱🇺 +352 (Luxembourg)</option>
+                        <option value="+261">🇲🇬 +261 (Madagascar)</option>
+                        <option value="+265">🇲🇼 +265 (Malawi)</option>
+                        <option value="+60">🇲🇾 +60 (Malaysia)</option>
+                        <option value="+960">🇲🇻 +960 (Maldives)</option>
+                        <option value="+223">🇲🇱 +223 (Mali)</option>
+                        <option value="+356">🇲🇹 +356 (Malta)</option>
+                        <option value="+692">🇲🇭 +692 (Marshall Islands)</option>
+                        <option value="+222">🇲🇷 +222 (Mauritania)</option>
+                        <option value="+230">🇲🇺 +230 (Mauritius)</option>
+                        <option value="+52">🇲🇽 +52 (Mexico)</option>
+                        <option value="+691">🇫🇲 +691 (Micronesia)</option>
+                        <option value="+373">🇲🇩 +373 (Moldova)</option>
+                        <option value="+377">🇲🇨 +377 (Monaco)</option>
+                        <option value="+976">🇲🇳 +976 (Mongolia)</option>
+                        <option value="+382">🇲🇪 +382 (Montenegro)</option>
+                        <option value="+212">🇲🇦 +212 (Morocco)</option>
+                        <option value="+258">🇲🇿 +258 (Mozambique)</option>
+                        <option value="+95">🇲🇲 +95 (Myanmar)</option>
+                        <option value="+264">🇳🇦 +264 (Namibia)</option>
+                        <option value="+674">🇳🇷 +674 (Nauru)</option>
+                        <option value="+977">🇳🇵 +977 (Nepal)</option>
+                        <option value="+31">🇳🇱 +31 (Netherlands)</option>
+                        <option value="+64">🇳🇿 +64 (New Zealand)</option>
+                        <option value="+505">🇳🇮 +505 (Nicaragua)</option>
+                        <option value="+227">🇳🇪 +227 (Niger)</option>
+                        <option value="+234">🇳🇬 +234 (Nigeria)</option>
+                        <option value="+850">🇰🇵 +850 (North Korea)</option>
+                        <option value="+389">🇲🇰 +389 (North Macedonia)</option>
+                        <option value="+47">🇳🇴 +47 (Norway)</option>
+                        <option value="+968">🇴🇲 +968 (Oman)</option>
+                        <option value="+92">🇵🇰 +92 (Pakistan)</option>
+                        <option value="+680">🇵🇼 +680 (Palau)</option>
+                        <option value="+970">🇵🇸 +970 (Palestine)</option>
+                        <option value="+507">🇵🇦 +507 (Panama)</option>
+                        <option value="+675">🇵🇬 +675 (Papua New Guinea)</option>
+                        <option value="+595">🇵🇾 +595 (Paraguay)</option>
+                        <option value="+51">🇵🇪 +51 (Peru)</option>
+                        <option value="+63">🇵🇭 +63 (Philippines)</option>
+                        <option value="+48">🇵🇱 +48 (Poland)</option>
+                        <option value="+351">🇵🇹 +351 (Portugal)</option>
+                        <option value="+974">🇶🇦 +974 (Qatar)</option>
+                        <option value="+40">🇷🇴 +40 (Romania)</option>
+                        <option value="+7">🇷🇺 +7 (Russia)</option>
+                        <option value="+250">🇷🇼 +250 (Rwanda)</option>
+                        <option value="+1">🇰🇳 +1 (Saint Kitts)</option>
+                        <option value="+1">🇱🇨 +1 (Saint Lucia)</option>
+                        <option value="+1">🇻🇨 +1 (Saint Vincent)</option>
+                        <option value="+685">🇼🇸 +685 (Samoa)</option>
+                        <option value="+378">🇸🇲 +378 (San Marino)</option>
+                        <option value="+239">🇸🇹 +239 (Sao Tome)</option>
+                        <option value="+966">🇸🇦 +966 (Saudi Arabia)</option>
+                        <option value="+221">🇸🇳 +221 (Senegal)</option>
+                        <option value="+381">🇷🇸 +381 (Serbia)</option>
+                        <option value="+248">🇸🇨 +248 (Seychelles)</option>
+                        <option value="+232">🇸🇱 +232 (Sierra Leone)</option>
+                        <option value="+65">🇸🇬 +65 (Singapore)</option>
+                        <option value="+421">🇸🇰 +421 (Slovakia)</option>
+                        <option value="+386">🇸🇮 +386 (Slovenia)</option>
+                        <option value="+677">🇸🇧 +677 (Solomon Islands)</option>
+                        <option value="+252">🇸🇴 +252 (Somalia)</option>
+                        <option value="+27">🇿🇦 +27 (South Africa)</option>
+                        <option value="+82">🇰🇷 +82 (South Korea)</option>
+                        <option value="+211">🇸🇸 +211 (South Sudan)</option>
+                        <option value="+34">🇪🇸 +34 (Spain)</option>
+                        <option value="+94">🇱🇰 +94 (Sri Lanka)</option>
+                        <option value="+249">🇸🇩 +249 (Sudan)</option>
+                        <option value="+597">🇸🇷 +597 (Suriname)</option>
+                        <option value="+268">🇸🇿 +268 (Eswatini)</option>
+                        <option value="+46">🇸🇪 +46 (Sweden)</option>
+                        <option value="+41">🇨🇭 +41 (Switzerland)</option>
+                        <option value="+963">🇸🇾 +963 (Syria)</option>
+                        <option value="+886">🇹🇼 +886 (Taiwan)</option>
+                        <option value="+992">🇹🇯 +992 (Tajikistan)</option>
+                        <option value="+255">🇹🇿 +255 (Tanzania)</option>
+                        <option value="+66">🇹🇭 +66 (Thailand)</option>
+                        <option value="+670">🇹🇱 +670 (Timor-Leste)</option>
+                        <option value="+228">🇹🇬 +228 (Togo)</option>
+                        <option value="+676">🇹🇴 +676 (Tonga)</option>
+                        <option value="+1">🇹🇹 +1 (Trinidad)</option>
+                        <option value="+216">🇹🇳 +216 (Tunisia)</option>
+                        <option value="+90">🇹🇷 +90 (Turkey)</option>
+                        <option value="+993">🇹🇲 +993 (Turkmenistan)</option>
+                        <option value="+688">🇹🇻 +688 (Tuvalu)</option>
+                        <option value="+256">🇺🇬 +256 (Uganda)</option>
+                        <option value="+380">🇺🇦 +380 (Ukraine)</option>
+                        <option value="+971">🇦🇪 +971 (UAE)</option>
+                        <option value="+44">🇬🇧 +44 (United Kingdom)</option>
+                        <option value="+1">🇺🇸 +1 (USA)</option>
+                        <option value="+598">🇺🇾 +598 (Uruguay)</option>
+                        <option value="+998">🇺🇿 +998 (Uzbekistan)</option>
+                        <option value="+678">🇻🇺 +678 (Vanuatu)</option>
+                        <option value="+379">🇻🇦 +379 (Vatican City)</option>
+                        <option value="+58">🇻🇪 +58 (Venezuela)</option>
+                        <option value="+84">🇻🇳 +84 (Vietnam)</option>
+                        <option value="+967">🇾🇪 +967 (Yemen)</option>
+                        <option value="+260">🇿🇲 +260 (Zambia)</option>
+                        <option value="+263">🇿🇼 +263 (Zimbabwe)</option>
+                    </select>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter phone number (digits only)" autocomplete="tel">
+                </div>
+                <small class="help-text">Select your country, then enter your phone number (optional but recommended)</small>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter strong password (min 8 characters)" minlength="8" required>
+                <div id="passwordStrength" class="password-strength"></div>
+                <small>Password must be at least 8 characters long.</small>
+            </div>
+
+            <div class="input-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Rewrite your password" required>
+                <small id="confirmHelp" class="help-text"></small>
+            </div>
+
+            <div class="terms-checkbox">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">I agree to the <a href="#" target="_blank">Terms and Conditions</a></label>
+            </div>
+
+            <button type="submit" class="register-button" id="registerBtn">Create Account</button>
+            <p id="register-error-message" class="error-message"></p>
+        </form>
+
+        <p class="login-link">Already have an account? <a href="login.html">Sign in here</a></p>
+        <p class="home-link"><a href="index.html">← Back to Home</a></p>
+    </div>
+
+    <script>
+        // Get DOM elements
+        const registerForm = document.getElementById('registerForm');
+        const registerBtn = document.getElementById('registerBtn');
+        const usernameInput = document.getElementById('username');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phoneNumber');
+        const countryCodeSelect = document.getElementById('countryCode');
+        const passwordInput = document.getElementById('password');
+        const confirmInput = document.getElementById('confirmPassword');
+        const termsCheckbox = document.getElementById('terms');
+        const messageDiv = document.getElementById('register-error-message');
+        const usernameHelp = document.getElementById('usernameHelp');
+        const emailHelp = document.getElementById('emailHelp');
+        const confirmHelp = document.getElementById('confirmHelp');
         
-        // Store user data
-        await store.set(email, {
-            username,
-            email,
-            phoneNumber: phoneNumber || '',
-            passwordHash,
-            createdAt: new Date().toISOString()
+        // Password strength indicator
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            const strengthDiv = document.getElementById('passwordStrength');
+            
+            if (password.length === 0) {
+                strengthDiv.className = 'password-strength';
+                return;
+            }
+            
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (password.match(/[a-z]+/)) strength++;
+            if (password.match(/[A-Z]+/)) strength++;
+            if (password.match(/[0-9]+/)) strength++;
+            if (password.match(/[$@#&!]+/)) strength++;
+            
+            strengthDiv.className = 'password-strength';
+            if (strength <= 2) {
+                strengthDiv.classList.add('strength-weak');
+            } else if (strength <= 4) {
+                strengthDiv.classList.add('strength-medium');
+            } else {
+                strengthDiv.classList.add('strength-strong');
+            }
         });
-
-        console.log('✅ User registered:', email);
-
-        return {
-            statusCode: 200,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                success: true, 
-                message: 'Registration successful!' 
-            })
+        
+        // Real-time validation
+        usernameInput.addEventListener('input', function() {
+            if (this.value.length > 0 && this.value.length < 3) {
+                usernameHelp.textContent = 'Username must be at least 3 characters';
+                usernameHelp.style.color = 'orange';
+            } else if (this.value.length >= 3) {
+                usernameHelp.textContent = '✓ Username looks good!';
+                usernameHelp.style.color = 'green';
+            } else {
+                usernameHelp.textContent = '';
+            }
+        });
+        
+        emailInput.addEventListener('input', function() {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (this.value.length > 0 && !emailRegex.test(this.value)) {
+                emailHelp.textContent = 'Please enter a valid email address';
+                emailHelp.style.color = 'orange';
+            } else if (emailRegex.test(this.value)) {
+                emailHelp.textContent = '✓ Email looks good!';
+                emailHelp.style.color = 'green';
+            } else {
+                emailHelp.textContent = '';
+            }
+        });
+        
+        confirmInput.addEventListener('input', function() {
+            if (this.value.length > 0 && this.value !== passwordInput.value) {
+                confirmHelp.textContent = 'Passwords do not match!';
+                confirmHelp.style.color = 'red';
+            } else if (this.value === passwordInput.value && this.value.length > 0) {
+                confirmHelp.textContent = '✓ Passwords match!';
+                confirmHelp.style.color = 'green';
+            } else {
+                confirmHelp.textContent = '';
+            }
+        });
+        
+        // Clear message when user starts typing
+        const clearMessage = () => {
+            messageDiv.textContent = '';
+            messageDiv.className = 'error-message';
         };
-
-    } catch (error) {
-        console.error('❌ Registration error:', error);
-        return {
-            statusCode: 500,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                success: false, 
-                message: error.message 
-            })
+        
+        usernameInput.addEventListener('input', clearMessage);
+        emailInput.addEventListener('input', clearMessage);
+        phoneInput.addEventListener('input', clearMessage);
+        passwordInput.addEventListener('input', clearMessage);
+        confirmInput.addEventListener('input', clearMessage);
+        termsCheckbox.addEventListener('change', clearMessage);
+        
+        // Country code patterns for validation
+        const countryCodePatterns = {
+            '+1': /^\d{10}$/, '+44': /^\d{10}$/, '+254': /^\d{9}$/, '+233': /^\d{9}$/,
+            '+234': /^\d{10}$/, '+27': /^\d{9}$/, '+256': /^\d{9}$/, '+255': /^\d{9}$/,
+            '+250': /^\d{9}$/, '+91': /^\d{10}$/, '+61': /^\d{9}$/, '+49': /^\d{11}$/,
+            '+33': /^\d{9}$/, '+34': /^\d{9}$/, '+39': /^\d{10}$/, '+55': /^\d{11}$/,
+            '+52': /^\d{10}$/, '+81': /^\d{10}$/, '+86': /^\d{11}$/, '+971': /^\d{9}$/,
+            '+966': /^\d{9}$/, '+20': /^\d{10}$/, '+880': /^\d{10}$/, '+977': /^\d{10}$/,
+            '+30': /^\d{10}$/, '+251': /^\d{9}$/, '+41': /^\d{9}$/, '+237': /^\d{9}$/
         };
-    }
-};
+        
+        // Register form submission
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = usernameInput.value.trim();
+            const email = emailInput.value.trim();
+            const countryCode = countryCodeSelect.value;
+            const phoneNumberLocal = phoneInput.value.trim();
+            const password = passwordInput.value;
+            const confirmPassword = confirmInput.value;
+            const terms = termsCheckbox.checked;
+            
+            // Username validation
+            if (username.length < 3) {
+                messageDiv.textContent = 'Username must be at least 3 characters long';
+                messageDiv.className = 'error-message';
+                usernameInput.focus();
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                messageDiv.textContent = 'Please enter a valid email address';
+                messageDiv.className = 'error-message';
+                emailInput.focus();
+                return;
+            }
+            
+            // Phone validation (optional)
+            let fullPhoneNumber = '';
+            if (phoneNumberLocal) {
+                const pattern = countryCodePatterns[countryCode] || /^\d{7,15}$/;
+                if (!pattern.test(phoneNumberLocal)) {
+                    messageDiv.textContent = `Please enter a valid phone number for the selected country (${pattern.toString().match(/\d+/g)?.join('-') || '7-15'} digits)`;
+                    messageDiv.className = 'error-message';
+                    phoneInput.focus();
+                    return;
+                }
+                fullPhoneNumber = `${countryCode}${phoneNumberLocal}`;
+            }
+            
+            // Password validation
+            if (password.length < 8) {
+                messageDiv.textContent = 'Password must be at least 8 characters long';
+                messageDiv.className = 'error-message';
+                passwordInput.focus();
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                messageDiv.textContent = 'Passwords do not match!';
+                messageDiv.className = 'error-message';
+                confirmInput.focus();
+                return;
+            }
+            
+            if (!terms) {
+                messageDiv.textContent = 'You must agree to the Terms and Conditions';
+                messageDiv.className = 'error-message';
+                termsCheckbox.focus();
+                return;
+            }
+            
+            // Disable button and show loading
+            registerBtn.disabled = true;
+            registerBtn.textContent = 'Creating Account...';
+            messageDiv.textContent = 'Creating your account... Please wait.';
+            messageDiv.className = 'success-message';
+            
+            try {
+                const response = await fetch('/.netlify/functions/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: username,
+                        email: email,
+                        phoneNumber: fullPhoneNumber,
+                        countryCode: countryCode,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    messageDiv.textContent = '✓ Registration successful! Redirecting to login...';
+                    messageDiv.className = 'success-message';
+                    setTimeout(() => {
+                        window.location.href = '/login.html';
+                    }, 2000);
+                } else {
+                    messageDiv.textContent = data.message || 'Registration failed. Please try again.';
+                    messageDiv.className = 'error-message';
+                    registerBtn.disabled = false;
+                    registerBtn.textContent = 'Create Account';
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                messageDiv.textContent = 'Network error. Please check your connection and try again.';
+                messageDiv.className = 'error-message';
+                registerBtn.disabled = false;
+                registerBtn.textContent = 'Create Account';
+            }
+        });
+        
+        // Remove non-digits as user types
+        phoneInput.addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+        
+        // Update placeholder based on selected country
+        countryCodeSelect.addEventListener('change', function() {
+            const placeholders = {
+                '+880': '1712345678', '+977': '9812345678', '+30': '6912345678',
+                '+251': '912345678', '+41': '791234567', '+237': '691234567',
+                '+254': '712345678', '+1': '5551234567', '+44': '7123456789',
+                '+91': '9876543210', '+234': '8012345678', '+27': '712345678',
+                '+233': '501234567', '+256': '712345678', '+255': '712345678'
+            };
+            phoneInput.placeholder = placeholders[this.value] || 'Enter phone number';
+        });
+        
+        // Trigger placeholder update on load
+        countryCodeSelect.dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>
