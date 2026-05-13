@@ -1,7 +1,7 @@
+const { getStore } = require('@netlify/blobs');
 const crypto = require('crypto');
 
 exports.handler = async (event) => {
-    // Only allow POST requests
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
@@ -13,7 +13,6 @@ exports.handler = async (event) => {
     try {
         const { username, email, phoneNumber, password } = JSON.parse(event.body);
 
-        // Validate required fields
         if (!username || !email || !password) {
             return {
                 statusCode: 400,
@@ -22,20 +21,38 @@ exports.handler = async (event) => {
             };
         }
 
-        // For now, let's just return success without storing
-        // This will help us test if the function is working at all
-        
-        console.log('Registration attempt:', { username, email, phoneNumber });
+        // This will AUTO-CREATE the blob store
+        const store = getStore('users');
 
-        // TEMPORARY: Just return success without database
-        // Once this works, we'll add blob storage
+        // Check if user exists
+        const existingUser = await store.get(email);
+        if (existingUser) {
+            return {
+                statusCode: 400,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ success: false, message: 'User already exists' })
+            };
+        }
+
+        // Hash password
+        const salt = crypto.randomBytes(16).toString('hex');
+        const hash = crypto.scryptSync(password, salt, 64).toString('hex');
+        
+        // Store user
+        await store.set(email, {
+            username,
+            email,
+            phoneNumber: phoneNumber || '',
+            passwordHash: `${salt}:${hash}`,
+            createdAt: new Date().toISOString()
+        });
+
+        console.log('User registered:', email);
+
         return {
             statusCode: 200,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                success: true, 
-                message: 'Registration successful! (Demo mode - no storage yet)' 
-            })
+            body: JSON.stringify({ success: true, message: 'Registration successful!' })
         };
 
     } catch (error) {

@@ -1,11 +1,7 @@
+const { getStore } = require('@netlify/blobs');
 const crypto = require('crypto');
 
-// Temporary in-memory storage for demo
-// In production, this should use Netlify Blobs
-const users = {};
-
 exports.handler = async (event) => {
-    // Only allow POST requests
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
@@ -17,7 +13,6 @@ exports.handler = async (event) => {
     try {
         const { email, password } = JSON.parse(event.body);
 
-        // Validate required fields
         if (!email || !password) {
             return {
                 statusCode: 400,
@@ -26,21 +21,38 @@ exports.handler = async (event) => {
             };
         }
 
-        console.log('Login attempt:', { email });
+        const store = getStore('users');
+        const user = await store.get(email);
 
-        // TEMPORARY: Demo login - accept any credentials
-        // In production, you'd check against stored users
-        
-        // For demo purposes, accept anything
-        return {
-            statusCode: 200,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                success: true, 
-                message: 'Login successful! (Demo mode)',
-                user: { username: email.split('@')[0], email: email }
-            })
-        };
+        if (!user) {
+            return {
+                statusCode: 401,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ success: false, message: 'Invalid email or password' })
+            };
+        }
+
+        const [salt, storedHash] = user.passwordHash.split(':');
+        const hash = crypto.scryptSync(password, salt, 64).toString('hex');
+
+        if (hash === storedHash) {
+            const { passwordHash, ...userWithoutPassword } = user;
+            return {
+                statusCode: 200,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    success: true,
+                    message: 'Login successful!',
+                    user: userWithoutPassword
+                })
+            };
+        } else {
+            return {
+                statusCode: 401,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ success: false, message: 'Invalid email or password' })
+            };
+        }
 
     } catch (error) {
         console.error('Login error:', error);
