@@ -12,6 +12,45 @@
 </head>
 <body>
 
+    <!-- ============================================ -->
+    <!-- 🔐 AUTHENTICATION PROTECTION - MUST BE FIRST -->
+    <!-- ============================================ -->
+    <script>
+        // Check if user is logged in
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        const currentUserEmail = localStorage.getItem('userEmail');
+        const currentUsername = localStorage.getItem('username');
+        
+        // If not logged in, redirect to login page immediately
+        if (!isLoggedIn || isLoggedIn !== 'true') {
+            // Redirect to login page
+            window.location.href = '/login.html';
+        }
+        
+        // Logout function - make it available globally
+        window.logout = function() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('username');
+            localStorage.removeItem('userPhone');
+            window.location.href = '/login.html';
+        };
+        
+        // Also check on page focus (in case user opens another tab and logs out)
+        window.addEventListener('focus', () => {
+            const stillLoggedIn = localStorage.getItem('isLoggedIn');
+            if (!stillLoggedIn || stillLoggedIn !== 'true') {
+                window.location.href = '/login.html';
+            }
+        });
+        
+        // Prevent back button after logout
+        history.pushState(null, null, location.href);
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, location.href);
+        });
+    </script>
+
     <div class="sidebar" id="sidebar-menu">
         <div class="sidebar-header">
             <h3>Menu</h3>
@@ -30,6 +69,8 @@
     <header>
         <h6> 
             <i class="bi bi-xbox"></i> bet
+            <!-- Logout Button -->
+            <button onclick="logout()" style="float: right; background: #dc3545; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; margin-right: 10px; font-size: 14px;">Logout</button>
         </h6>
     </header>
 
@@ -106,77 +147,77 @@
                                 
         <div id="aviator-page" class="page-section">
             <div class="aviator-header">
-        <div class="left-section">
-            <i class="fas fa-arrow-left"></i>
-            <span class="title">Aviator</span>
-        </div>
-        <div class="balance-info">
-            <span id="aviatorBalanceDisplay">0.00</span> <!-- Added ID for balance display -->
-            <span>KES</span>
-            <i class="fas fa-bars"></i>
-        </div>
-        <div class="right-section">
-            <button>View Fullscreen</button>
-            <i class="fas fa-question-circle"></i>
-        </div>
-    </div>
-    
-    <div style="position: relative; width: 100%; max-width: 600px; margin: 10px auto; overflow: hidden; border-radius: 8px;">
-        <canvas id="gameCanvas" width="600" height="400"></canvas>
-        <div class="game-info" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-            <div id="multiplier-display" style="font-size: 3.5rem; font-weight: bold; color: #61dafb; text-shadow: 0 0 10px rgba(97, 218, 251, 0.5);">1.00x</div>
-            <div id="status-message" style="font-size: 1.2rem; color: #ccc; margin-top: 5px;"></div>
-        </div>
-    </div>
+                <div class="left-section">
+                    <i class="fas fa-arrow-left"></i>
+                    <span class="title">Aviator</span>
+                </div>
+                <div class="balance-info">
+                    <span id="aviatorBalanceDisplay">0.00</span>
+                    <span>KES</span>
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="right-section">
+                    <button>View Fullscreen</button>
+                    <i class="fas fa-question-circle"></i>
+                </div>
+            </div>
+            
+            <div style="position: relative; width: 100%; max-width: 600px; margin: 10px auto; overflow: hidden; border-radius: 8px;">
+                <canvas id="gameCanvas" width="600" height="400"></canvas>
+                <div class="game-info" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                    <div id="multiplier-display" style="font-size: 3.5rem; font-weight: bold; color: #61dafb; text-shadow: 0 0 10px rgba(97, 218, 251, 0.5);">1.00x</div>
+                    <div id="status-message" style="font-size: 1.2rem; color: #ccc; margin-top: 5px;"></div>
+                </div>
+            </div>
 
-    <div class="betting-controls-container">
-        <!-- First Betting Block -->
-        <div class="betting-block">
-            <div class="bet-auto-tabs">
-                <div class="bet-auto-tab active-tab">Bet</div>
-                <div class="bet-auto-tab">Auto</div>
-                <i class="fas fa-comment-dots" style="color: #e0e0e0; margin-left: auto; align-self: center; padding-right: 10px;"></i>
-            </div>
-            <div class="bet-input-group">
-                <button class="minus-btn" data-target-input="betAmountInput1">-</button>
-                <input type="number" id="betAmountInput1" value="10" step="10" min="10"> <!-- Added ID, step, min -->
-                <button class="plus-btn" data-target-input="betAmountInput1">+</button>
-            </div>
-            <div class="quick-bet-amounts">
-                <button data-amount="100" data-target-input="betAmountInput1">100</button>
-                <button data-amount="200" data-target-input="betAmountInput1">200</button>
-                <button data-amount="500" data-target-input="betAmountInput1">500</button>
-                <button data-amount="20000" data-target-input="betAmountInput1">20,000</button>
-            </div>
-            <button class="place-game-bet-button" id="placeBetButton1">Bet 10.00 KES</button>
-        </div>
+            <div class="betting-controls-container">
+                <!-- First Betting Block -->
+                <div class="betting-block">
+                    <div class="bet-auto-tabs">
+                        <div class="bet-auto-tab active-tab">Bet</div>
+                        <div class="bet-auto-tab">Auto</div>
+                        <i class="fas fa-comment-dots" style="color: #e0e0e0; margin-left: auto; align-self: center; padding-right: 10px;"></i>
+                    </div>
+                    <div class="bet-input-group">
+                        <button class="minus-btn" data-target-input="betAmountInput1">-</button>
+                        <input type="number" id="betAmountInput1" value="10" step="10" min="10">
+                        <button class="plus-btn" data-target-input="betAmountInput1">+</button>
+                    </div>
+                    <div class="quick-bet-amounts">
+                        <button data-amount="100" data-target-input="betAmountInput1">100</button>
+                        <button data-amount="200" data-target-input="betAmountInput1">200</button>
+                        <button data-amount="500" data-target-input="betAmountInput1">500</button>
+                        <button data-amount="20000" data-target-input="betAmountInput1">20,000</button>
+                    </div>
+                    <button class="place-game-bet-button" id="placeBetButton1">Bet 10.00 KES</button>
+                </div>
 
-        <!-- Second Betting Block -->
-        <div class="betting-block">
-            <div class="bet-auto-tabs">
-                <div class="bet-auto-tab active-tab">Bet</div>
-                <div class="bet-auto-tab">Auto</div>
-                <i class="fas fa-comment-dots" style="color: #e0e0e0; margin-left: auto; align-self: center; padding-right: 10px;"></i>
+                <!-- Second Betting Block -->
+                <div class="betting-block">
+                    <div class="bet-auto-tabs">
+                        <div class="bet-auto-tab active-tab">Bet</div>
+                        <div class="bet-auto-tab">Auto</div>
+                        <i class="fas fa-comment-dots" style="color: #e0e0e0; margin-left: auto; align-self: center; padding-right: 10px;"></i>
+                    </div>
+                    <div class="bet-input-group">
+                        <button class="minus-btn" data-target-input="betAmountInput2">-</button>
+                        <input type="number" id="betAmountInput2" value="10" step="10" min="10">
+                        <button class="plus-btn" data-target-input="betAmountInput2">+</button>
+                    </div>
+                    <div class="quick-bet-amounts">
+                        <button data-amount="100" data-target-input="betAmountInput2">100</button>
+                        <button data-amount="200" data-target-input="betAmountInput2">200</button>
+                        <button data-amount="500" data-target-input="betAmountInput2">500</button>
+                        <button data-amount="20000" data-target-input="betAmountInput2">1,000</button>
+                    </div>
+                    <button class="place-game-bet-button" id="placeBetButton2">Bet 10.00 KES</button>
+                </div>
             </div>
-            <div class="bet-input-group">
-                <button class="minus-btn" data-target-input="betAmountInput2">-</button>
-                <input type="number" id="betAmountInput2" value="10" step="10" min="10"> <!-- Added ID, step, min -->
-                <button class="plus-btn" data-target-input="betAmountInput2">+</button>
-            </div>
-            <div class="quick-bet-amounts">
-                <button data-amount="100" data-target-input="betAmountInput2">100</button>
-                <button data-amount="200" data-target-input="betAmountInput2">200</button>
-                <button data-amount="500" data-target-input="betAmountInput2">500</button>
-                <button data-amount="20000" data-target-input="betAmountInput2">1,000</button>
-            </div>
-            <button class="place-game-bet-button" id="placeBetButton2">Bet 10.00 KES</button>
-        </div>
-    </div>
 
             <div class="bets-history-section">
                 <div class="history-tabs">
                     <div class="history-tab active-tabU">ALL BETS</div>
-                    <div class="history-tab">Stake amount </div>
+                    <div class="history-tab">Stake amount</div>
                     <div class="history-tab">X</div>
                     <div class="history-tab">Cashout</div>
                 </div>
@@ -195,15 +236,15 @@
                                 <tr><td>User***0</td><td>20,000.0</td><td>1.39</td><td>27,800.0</td></tr>
                                 <tr><td>Player***1</td><td>500.00</td><td>2.10</td><td>1,050.00</td></tr>
                                 <tr><td>Gr***j</td><td>100.00</td><td>19.05</td><td>19,500.0</td></tr>
-                                 <tr><td>D***s</td><td>1000.00</td><td>4.05</td><td>4,500.0</td></tr>
+                                <tr><td>D***s</td><td>1000.00</td><td>4.05</td><td>4,500.0</td></tr>
                                 <tr><td>H***S</td><td>250.00</td><td>5.05</td><td>1,500.0</td></tr>
-                                 <tr><td>J***A</td><td>100.00</td><td>2.05</td><td>200.00</td></tr>
-                                  <tr><td>I***G</td><td>100.00</td><td>5.05</td><td>500.0</td></tr>
-                                 <tr><td>Duo***3</td><td>1,000.00</td><td>3.50</td><td>3,500.00</td></tr>
-                                  <tr><td>Pi***3</td><td>1,000.00</td><td>5.30</td><td>53,500.0</td></tr>
-                                   <tr><td>My***3</td><td>1,000.00</td><td>19.20</td><td>19,200.0</td></tr>
-                                    <tr><td>Wr***3</td><td>1,000.00</td><td>3.50</td><td>35,400.0</td></tr>
-                                     <tr><td>K***N</td><td>1,000.00</td><td>67.40</td><td>3,500.00</td></tr>
+                                <tr><td>J***A</td><td>100.00</td><td>2.05</td><td>200.00</td></tr>
+                                <tr><td>I***G</td><td>100.00</td><td>5.05</td><td>500.0</td></tr>
+                                <tr><td>Duo***3</td><td>1,000.00</td><td>3.50</td><td>3,500.00</td></tr>
+                                <tr><td>Pi***3</td><td>1,000.00</td><td>5.30</td><td>53,500.0</td></tr>
+                                <tr><td>My***3</td><td>1,000.00</td><td>19.20</td><td>19,200.0</td></tr>
+                                <tr><td>Wr***3</td><td>1,000.00</td><td>3.50</td><td>35,400.0</td></tr>
+                                <tr><td>K***N</td><td>1,000.00</td><td>67.40</td><td>3,500.00</td></tr>
                                 <tr><td>Alpha***4</td><td>250.00</td><td>4.53</td><td>45,000.0</td></tr>
                                 <tr><td>Beta***5</td><td>75.00</td><td>133.5</td><td>10,000.0</td></tr>
                                 <tr><td>Gamma***6</td><td>5,000.00</td><td>50.00</td><td>50,000.0</td></tr>
@@ -215,30 +256,23 @@
             </div>
         </div>
 
-
-         <div id="person-page" class="page-section">
+        <div id="person-page" class="page-section">
             <div class="profile-info">
-                <!-- Display Username here -->
-           <h2>Hi  <span id="displayUsername"></span>👋  </h2>  
-                    
-            <p>Welcome to your personal dashboard.</p>
-        <p>Try depositing manually via M-PESA:</p>
-        <p>
-            Paybill: <span id="paybillNumber">542542</span> 
-            <button class="copy-btn" data-target="paybillNumber">Copy Paybill</button>
-        </p>
-        <p>
-            Account Number: <span id="accountNumber">03207346616150</span> 
-            <button class="copy-btn" data-target="accountNumber">Copy Account No.</button>
-        </p>
+                <h2>Hi <span id="displayUsername"></span> 👋</h2>  
+                <p>Welcome to your personal dashboard.</p>
+                <p>Try depositing manually via M-PESA:</p>
+                <p>
+                    Paybill: <span id="paybillNumber">542542</span> 
+                    <button class="copy-btn" data-target="paybillNumber">Copy Paybill</button>
+                </p>
+                <p>
+                    Account Number: <span id="accountNumber">03207346616150</span> 
+                    <button class="copy-btn" data-target="accountNumber">Copy Account No.</button>
+                </p>
 
-               
-
-                <!-- Display Phone Number and Email here -->
                 <p>Your Phone: <span id="displayPhoneNumber"></span></p> 
                 <p>Your Email: <span id="displayEmail"></span></p>
                 
-                <!-- Your Deposit Grid Container -->
                 <div class="deposit-grid-container">
                     <button class="deposit-amount-btn" data-amount="50">50</button>
                     <button class="deposit-amount-btn" data-amount="100">100</button>
@@ -259,7 +293,6 @@
                     <button id="proceed-deposit-btn">Deposit</button>
                 </div>
 
-                <!-- Input fields for displaying/editing (currently readonly) -->
                 <label for="usernameInput">Username:</label>
                 <input type="text" id="usernameInput" value="" readonly>
                 
@@ -279,8 +312,7 @@
         <div class="modal-content">
             <span class="close-button" id="close-bet-slip">&times;</span>
             <h2>Betting Slip</h2>
-            <ul id="selected-bets-list">
-                </ul>
+            <ul id="selected-bets-list"></ul>
             <div class="bet-summary">
                 <p>Total Odds: <span id="total-odds">1.00</span></p>
                 <div class="stake-input-group">
@@ -293,18 +325,67 @@
         </div>
     </div>
     
+    <!-- ============================================ -->
+    <!-- USER INFO DISPLAY SCRIPT -->
+    <!-- ============================================ -->
+    <script>
+        // Display user information on the Account page
+        document.addEventListener('DOMContentLoaded', () => {
+            const username = localStorage.getItem('username');
+            const email = localStorage.getItem('userEmail');
+            const phone = localStorage.getItem('userPhone');
+            
+            // Update username display
+            const displayUsernameSpan = document.getElementById('displayUsername');
+            if (displayUsernameSpan && username) {
+                displayUsernameSpan.textContent = username;
+            } else if (displayUsernameSpan) {
+                displayUsernameSpan.textContent = 'User';
+            }
+            
+            // Update phone display
+            const displayPhoneSpan = document.getElementById('displayPhoneNumber');
+            if (displayPhoneSpan && phone) {
+                displayPhoneSpan.textContent = phone;
+            } else if (displayPhoneSpan) {
+                displayPhoneSpan.textContent = 'Not set';
+            }
+            
+            // Update email display
+            const displayEmailSpan = document.getElementById('displayEmail');
+            if (displayEmailSpan && email) {
+                displayEmailSpan.textContent = email;
+            } else if (displayEmailSpan) {
+                displayEmailSpan.textContent = 'Not set';
+            }
+            
+            // Update readonly input fields
+            const usernameInput = document.getElementById('usernameInput');
+            if (usernameInput && username) {
+                usernameInput.value = username;
+            }
+            
+            const emailInput = document.getElementById('emailInput');
+            if (emailInput && email) {
+                emailInput.value = email;
+            }
+            
+            const phoneInput = document.getElementById('phoneNumberInput');
+            if (phoneInput && phone) {
+                phoneInput.value = phone;
+            }
+        });
+    </script>
     
     <script src="person_page_script.js"></script>
     <script src="aviator.js"></script>
-
-
-
 
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js"></script>
     <script src="script.js" defer></script>
     <script src="logout.js" defer></script>
+    
     <footer>
         <p>© 2023 <i class="bi bi-xbox"></i> bet. All rights reserved.</p>
     </footer>

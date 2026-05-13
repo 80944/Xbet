@@ -17,8 +17,9 @@
             <span class="letter-b">B</span><span class="letter-e">e</span><span class="letter-t">t</span>
         </h1>
         <h2>Login</h2>
-        <form id="loginForm"> <div class="form-group">
-                <label for="username">Username:</label>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username/Email:</label>
                 <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
@@ -26,9 +27,61 @@
                 <input type="password" id="password" name="password" required>
             </div>
             <button type="submit">Login</button>
-            <p id="message" class="error-message"></p> </form>
+            <p id="message" class="error-message"></p>
+        </form>
         <p class="register-link">Don't have an account? <a href="register.html">Register here</a></p>
     </div>
 
-    <script src="js/login.js"></script> </body>
+    <script>
+        // Login handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('message');
+            
+            // Check if username is actually an email (can be either)
+            const email = username.includes('@') ? username : `${username}@xbet.user`; // Convert username to email format if needed
+            
+            try {
+                const response = await fetch('/.netlify/functions/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        email: email, 
+                        password: password,
+                        username: username  // Also send original username
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Save login state
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userEmail', email);
+                    localStorage.setItem('username', username);
+                    
+                    // Redirect to dashboard
+                    window.location.href = '/index.html';
+                } else {
+                    messageDiv.textContent = data.message || 'Login failed. Please check your credentials.';
+                    messageDiv.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                messageDiv.textContent = 'An error occurred. Please try again.';
+                messageDiv.style.color = 'red';
+            }
+        });
+        
+        // If already logged in, redirect to dashboard
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
 </html>

@@ -1,0 +1,17 @@
+[build]
+  functions = "netlify/functions"
+  publish = "public"
+
+[[redirects]]
+  from = "/"
+  to = "/login.html"
+  status = 200
+
+[[redirects]]
+  from = "/index.html"
+  to = "/login.html"
+  status = 200
+
+[[redirects]]
+  from = "/.netlify/functions/*"
+  status = 404
