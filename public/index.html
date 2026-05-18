@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="style.css">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 </head>
 <body>
 
@@ -16,31 +19,78 @@
     <!-- 🔐 AUTHENTICATION PROTECTION - MUST BE FIRST -->
     <!-- ============================================ -->
     <script>
-        // Check if user is logged in
-        const isLoggedIn = localStorage.getItem('isLoggedIn');
-        const currentUserEmail = localStorage.getItem('userEmail');
-        const currentUsername = localStorage.getItem('username');
+        // ============================================
+        // FIREBASE CONFIGURATION
+        // ============================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAMU7CywBjtFq6-1ZRoj0M9gL_o6-dIsYY",
+            authDomain: "xbet-auth.firebaseapp.com",
+            projectId: "xbet-auth",
+            storageBucket: "xbet-auth.firebasestorage.app",
+            messagingSenderId: "559059319758",
+            appId: "1:559059319758:web:70f977770b29748b8d099f",
+            measurementId: "G-XDG5WT4ZD2"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Check authentication state
+        let authChecked = false;
         
-        // If not logged in, redirect to login page immediately
+        auth.onAuthStateChanged((user) => {
+            authChecked = true;
+            
+            if (!user) {
+                // No user signed in, redirect to login
+                localStorage.clear();
+                window.location.href = '/login.html';
+            } else {
+                // User is signed in, update localStorage
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userEmail', user.email);
+                
+                // Get username from localStorage or use email prefix
+                let username = localStorage.getItem('username');
+                if (!username) {
+                    username = user.email.split('@')[0];
+                    localStorage.setItem('username', username);
+                }
+            }
+        });
+        
+        // Immediate check before Firebase initializes (fallback)
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
         if (!isLoggedIn || isLoggedIn !== 'true') {
-            // Redirect to login page
-            window.location.href = '/login.html';
+            // Don't redirect immediately - let Firebase check first
+            setTimeout(() => {
+                if (!auth.currentUser && !authChecked) {
+                    window.location.href = '/login.html';
+                }
+            }, 1000);
         }
         
-        // Logout function - make it available globally
-        window.logout = function() {
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('userEmail');
-            localStorage.removeItem('username');
-            localStorage.removeItem('userPhone');
+        // Logout function with Firebase
+        window.logout = async function() {
+            try {
+                await auth.signOut();
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+            localStorage.clear();
             window.location.href = '/login.html';
         };
         
-        // Also check on page focus (in case user opens another tab and logs out)
-        window.addEventListener('focus', () => {
-            const stillLoggedIn = localStorage.getItem('isLoggedIn');
-            if (!stillLoggedIn || stillLoggedIn !== 'true') {
+        // Also check on page focus
+        window.addEventListener('focus', async () => {
+            const currentUser = auth.currentUser;
+            if (!currentUser) {
+                localStorage.clear();
                 window.location.href = '/login.html';
+            } else {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userEmail', currentUser.email);
             }
         });
         
@@ -380,11 +430,8 @@
     <script src="person_page_script.js"></script>
     <script src="aviator.js"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js"></script>
+    <!-- Remove old Firebase scripts, keep only necessary -->
     <script src="script.js" defer></script>
-    <script src="logout.js" defer></script>
     
     <footer>
         <p>© 2023 <i class="bi bi-xbox"></i> bet. All rights reserved.</p>
